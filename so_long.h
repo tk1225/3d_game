@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takuokam <takuokam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/01/08 18:43:40 by takuokam         ###   ########.fr       */
+/*   Updated: 2023/05/28 17:53:54 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 # define DOWN_KEY 125
 # define UP_KEY 126
 # define SPACE_KEY 49
+# define ESC_KEY_M1 65307
+# define LEFT_KEY_M1 65361
+# define RIGHT_KEY_M1 65363
+# define DOWN_KEY_M1 65364
+# define UP_KEY_M1 65362
+# define SPACE_KEY_M1 32
 # define LEFT 0
 # define UP 1
 # define RIGHT 2

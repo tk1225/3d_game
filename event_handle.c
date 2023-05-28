@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takuokam <takuokam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:42:08 by takuokam          #+#    #+#             */
-/*   Updated: 2022/12/27 18:31:29 by takuokam         ###   ########.fr       */
+/*   Updated: 2023/05/28 17:55:52 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,23 @@ int	x_click_handle(t_game *game)
 
 int	key_handle(int keycode, t_game *game)
 {
-	if (keycode == SPACE_KEY)
+	printf("%d\n", keycode);
+	if (keycode == SPACE_KEY || keycode == SPACE_KEY_M1)
 		game->game_status = 1;
-	if (keycode == ESC_KEY)
+	if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
 	{
 		free_destroy_game(game);
 		return (0);
 	}
 	if (game->game_status == 0)
 		return (0);
-	else if (keycode == LEFT_KEY)
+	else if (keycode == LEFT_KEY || keycode == LEFT_KEY_M1)
 		game->player->direction = LEFT;
-	else if (keycode == RIGHT_KEY)
+	else if (keycode == RIGHT_KEY || keycode == RIGHT_KEY_M1)
 		game->player->direction = RIGHT;
-	else if (keycode == DOWN_KEY)
+	else if (keycode == DOWN_KEY || keycode == DOWN_KEY_M1)
 		game->player->direction = DOWN;
-	else if (keycode == UP_KEY)
+	else if (keycode == UP_KEY || keycode == UP_KEY_M1)
 		game->player->direction = UP;
 	if (game->game_status == 0)
 		free_destroy_game(game);
