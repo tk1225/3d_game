@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+         #
+#    By: terabu <terabu@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/31 18:31:13 by takuokam          #+#    #+#              #
-#    Updated: 2023/05/28 21:34:35 by takumasaoka      ###   ########.fr        #
+#    Updated: 2023/06/10 11:58:33 by terabu           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,13 @@ SRCS	:=	$(addprefix $(SRC_DIR), $(SRCS_NAME))
 OBJS	:=	$(addprefix $(OBJ_DIR), $(OBJS_NAME))
 
 
-GNLDIR	:=	./gnl
+GNLDIR	:=	./lib/gnl
 GNL		:=	$(GNLDIR)/gnl.a
 
-LIBFTDIR	:=	./libft
+LIBFTDIR	:=	./lib/libft
 LIBFT		:=	$(LIBFTDIR)/libft.a
 
-LIBMLXDIR	:=	./minilibx-linux
+LIBMLXDIR	:=	./lib/minilibx-linux
 LIBMLX := ./libmlx.a
 LIBFLAGS := -L/usr/X11R6/lib -lmlx -lX11 -lXext -framework OpenGL -framework AppKit
 
