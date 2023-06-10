@@ -72,7 +72,13 @@ int	key_handle(int keycode, t_vars *vars)
             vars->map->posX += vars->map->dirX * MOVE_SPEED;
         if(worldMap[(int)vars->map->posX][(int)(vars->map->posY + vars->map->dirY * MOVE_SPEED)] == 0)
             vars->map->posY += vars->map->dirY * MOVE_SPEED;
-    }
+  }
+  else if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+    exit(1);
+		return (0);
+	}
 	return (0);
 }
 
