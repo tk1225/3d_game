@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/10 16:03:59 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/10 16:25:38 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,33 @@ int	render_next_frame(t_vars *vars)
   return (SUCCESS);
 }
 
+t_map *map_init()
+{
+	t_map *map;
+
+	map = (t_map *)malloc(sizeof(t_map));
+	map->posX = 22;
+	map->posY = 12;
+	map->dirX = -1;
+	map->dirY = 0;
+	map->planeX = 0;
+	map->planeY = 0.66;
+	map->time = 0;
+	map->oldTime = 0;
+	return (map);
+}
+
 int main(void)
 {
-  t_vars *vars;
-	vars = (t_vars *)malloc(sizeof(t_vars));
+	t_vars *vars;
 
-  vars->mlx = mlx_init();
-  vars->win = mlx_new_window(vars->mlx, screenWidth, screenHeight, "so_long");
-  raycasting(vars);
+	vars = (t_vars *)malloc(sizeof(t_vars));
+	vars->mlx = mlx_init();
+	vars->map = map_init();
+	vars->win = mlx_new_window(vars->mlx, screenWidth, screenHeight, "so_long");
+	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
-  mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
+	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
 	// mlx_hook(vars->win, 17, 0L, x_click_handle, vars);
 	mlx_loop(vars->mlx);
 }

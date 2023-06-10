@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/10 16:03:34 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/10 16:24:39 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,40 @@
 # define MOVE_SPEED 1
 # define ROT_SPEED 0.5
 
-typedef struct s_vars
+typedef struct s_vars t_vars;
+typedef struct s_data t_data;
+typedef struct s_map t_map;
+
+struct s_vars
 {
 	void	*mlx;
 	void	*win;
-}				t_vars;
+	t_map	*map;
+};
 
-typedef struct s_data
+struct s_data
 {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+};
+
+struct s_map
+{
+	double posX;
+	double posY;
+	double dirX;
+	double dirY;
+	double planeX;
+	double planeY;
+	double time;
+	double oldTime;
+};
 
 void raycasting(t_vars *vars);
 int	key_handle(int keycode, t_vars *vars);
-
-
 
 // # include <fcntl.h>
 // # include <unistd.h>

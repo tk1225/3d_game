@@ -33,11 +33,11 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-double posX = 22, posY = 12;  //x and y start position
-double dirX = -1, dirY = 0; //initial direction vector
-double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-double time = 0; //time of current frame
-double oldTime = 0; //time of previous frame
+// double posX = 22, posY = 12;  //x and y start position
+// double dirX = -1, dirY = 0; //initial direction vector
+// double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
+// double time = 0; //time of current frame
+// double oldTime = 0; //time of previous frame
 
 int	key_handle(int keycode, t_vars *vars)
 {
@@ -45,33 +45,33 @@ int	key_handle(int keycode, t_vars *vars)
 	printf("%d\n", keycode);
 	if (keycode == LEFT_KEY || keycode == LEFT_KEY_M1)
     {
-      double oldDirX = dirX;
-      dirX = dirX * cos(ROT_SPEED) - dirY * sin(ROT_SPEED);
-      dirY = oldDirX * sin(ROT_SPEED) + dirY * cos(ROT_SPEED);
-      double oldPlaneX = planeX;
-      planeX = planeX * cos(ROT_SPEED) - planeY * sin(ROT_SPEED);
-      planeY = oldPlaneX * sin(ROT_SPEED) + planeY * cos(ROT_SPEED);
+      double oldDirX = vars->map->dirX;
+      vars->map->dirX = vars->map->dirX * cos(ROT_SPEED) - vars->map->dirY * sin(ROT_SPEED);
+      vars->map->dirY = oldDirX * sin(ROT_SPEED) + vars->map->dirY * cos(ROT_SPEED);
+      double oldPlaneX = vars->map->planeX;
+      vars->map->planeX = vars->map->planeX * cos(ROT_SPEED) - vars->map->planeY * sin(ROT_SPEED);
+      vars->map->planeY = oldPlaneX * sin(ROT_SPEED) + vars->map->planeY * cos(ROT_SPEED);
     }
 	else if (keycode == RIGHT_KEY || keycode == RIGHT_KEY_M1)
 	{
-      double oldDirX = dirX;
-      dirX = dirX * cos(-ROT_SPEED) - dirY * sin(-ROT_SPEED);
-      dirY = oldDirX * sin(-ROT_SPEED) + dirY * cos(-ROT_SPEED);
-      double oldPlaneX = planeX;
-      planeX = planeX * cos(-ROT_SPEED) - planeY * sin(-ROT_SPEED);
-      planeY = oldPlaneX * sin(-ROT_SPEED) + planeY * cos(-ROT_SPEED);
+      double oldDirX = vars->map->dirX;
+      vars->map->dirX = vars->map->dirX * cos(-ROT_SPEED) - vars->map->dirY * sin(-ROT_SPEED);
+      vars->map->dirY = oldDirX * sin(-ROT_SPEED) + vars->map->dirY * cos(-ROT_SPEED);
+      double oldPlaneX = vars->map->planeX;
+      vars->map->planeX = vars->map->planeX * cos(-ROT_SPEED) - vars->map->planeY * sin(-ROT_SPEED);
+      vars->map->planeY = oldPlaneX * sin(-ROT_SPEED) + vars->map->planeY * cos(-ROT_SPEED);
     }
 	else if (keycode == DOWN_KEY || keycode == DOWN_KEY_M1)
 	{
-        posX -= dirX * MOVE_SPEED;
-        posY -= dirY * MOVE_SPEED;
+        vars->map->posX -= vars->map->dirX * MOVE_SPEED;
+        vars->map->posY -= vars->map->dirY * MOVE_SPEED;
     }
 	else if (keycode == UP_KEY || keycode == UP_KEY_M1)
 	{
-        if(worldMap[(int)(posX + dirX * MOVE_SPEED)][(int)posY] == 0)
-            posX += dirX * MOVE_SPEED;
-        if(worldMap[(int)posX][(int)(posY + dirY * MOVE_SPEED)] == 0)
-            posY += dirY * MOVE_SPEED;
+        if(worldMap[(int)(vars->map->posX + vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == 0)
+            vars->map->posX += vars->map->dirX * MOVE_SPEED;
+        if(worldMap[(int)vars->map->posX][(int)(vars->map->posY + vars->map->dirY * MOVE_SPEED)] == 0)
+            vars->map->posY += vars->map->dirY * MOVE_SPEED;
     }
 	return (0);
 }
@@ -84,11 +84,11 @@ void raycasting(t_vars *vars)
     {
       //calculate ray position and direction
       double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
-      double rayDirX = dirX + planeX * cameraX;
-      double rayDirY = dirY + planeY * cameraX;
+      double rayDirX = vars->map->dirX + vars->map->planeX * cameraX;
+      double rayDirY = vars->map->dirY + vars->map->planeY * cameraX;
       //which box of the map we're in
-      int mapX = posX;
-      int mapY = posY;
+      int mapX = vars->map->posX;
+      int mapY = vars->map->posY;
 
       //length of ray from current position to next x or y-side
       double sideDistX;
@@ -120,23 +120,23 @@ void raycasting(t_vars *vars)
       if(rayDirX < 0)
       {
         stepX = -1;
-        sideDistX = (posX - mapX) * deltaDistX;
+        sideDistX = (vars->map->posX - mapX) * deltaDistX;
       }
       else
       {
         stepX = 1;
-        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+        sideDistX = (mapX + 1.0 - vars->map->posX) * deltaDistX;
       }
 
       if(rayDirY < 0)
       {
         stepY = -1;
-        sideDistY = (posY - mapY) * deltaDistY;
+        sideDistY = (vars->map->posY - mapY) * deltaDistY;
       }
       else
       {
         stepY = 1;
-        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+        sideDistY = (mapY + 1.0 - vars->map->posY) * deltaDistY;
       }
       //perform DDA
       while(hit == 0)
