@@ -1,18 +1,18 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    MakeFile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+         #
+#    By: takuokam <takuokam@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/31 18:31:13 by takuokam          #+#    #+#              #
-#    Updated: 2023/06/04 18:01:48 by takumasaoka      ###   ########.fr        #
+#    Updated: 2023/06/10 17:56:36 by takuokam         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := sample_fps
 CC		:= cc
-CFLAGS	:= -Wall -Wextra -Werror
+# CFLAGS	:= -Wall -Wextra -Werror
 INC		:=	-I inc/
 SRC_DIR	:=	src/
 OBJ_DIR	:=	objs/

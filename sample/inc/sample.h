@@ -2,6 +2,8 @@
 #define mapHeight 24
 #define screenWidth 640
 #define screenHeight 480
+#define texWidth 32
+#define texHeight 32
 #include <stdio.h>
 # include <mlx.h>
 # include <stdlib.h>

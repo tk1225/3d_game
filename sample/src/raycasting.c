@@ -169,25 +169,62 @@ void raycasting(t_vars *vars)
       //Calculate height of line to draw on screen
       int lineHeight = (int)(h / perpWallDist);
 
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2;
-      if(drawStart < 0) drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2;
-      if(drawEnd >= h) drawEnd = h - 1;
+      int pitch = 100;
 
-      //choose wall color
-      int color;
-      switch(worldMap[mapX][mapY])
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStart = -lineHeight / 2 + h / 2 + pitch;
+      if(drawStart < 0) drawStart = 0;
+      int drawEnd = lineHeight / 2 + h / 2 + pitch;
+      if(drawEnd >= h) drawEnd = h - 1;
+      //updated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+      //calculate value of wallX
+      double wallX; //where exactly the wall was hit
+      if(side == 0) wallX = posY + perpWallDist * rayDirY;
+      else          wallX = posX + perpWallDist * rayDirX;
+      wallX -= floor((wallX));
+
+      //x coordinate on the texture
+      int texX = (int)(wallX * (double)(texWidth));
+      if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
+      if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+
+      // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
+      // How much to increase the texture coordinate per screen pixel
+      double step = 1.0 * texHeight / lineHeight;
+      // Starting texture coordinate
+      double texPos = (drawStart - pitch - h / 2 + lineHeight / 2) * step;
+      for(int y = drawStart; y < drawEnd; y++)
       {
-        case 1:  color = rgbToHex(255, 0, 0);    break; //red
-        case 2:  color = rgbToHex(0, 255, 0);  break; //green
-        case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-        case 4:  color = rgbToHex(0, 255, 0);  break; //white
-        default: color = rgbToHex(0, 0, 0); break; //yellow
+        // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+        int texY = (int)texPos & (texHeight - 1);
+        texPos += step;
+        // uint32_t color = texture[texNum][texHeight * texY + texX];
+        
+        // fix::color をxpmより取得
+        //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+        // if(side == 1) color = (color >> 1) & 8355711;
+        // buffer[y][x] = color;
+        
+        // fix::bufferを用意
       }
 
-      //give x and y sides different brightness
-      if(side == 1) {color = color / 2;}
+      //updated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+      // //choose wall color
+      int color;
+      color = rgbToHex(255, 0, 0);
+      // switch(worldMap[mapX][mapY])
+      // {
+      //   case 1:  color = rgbToHex(255, 0, 0);    break; //red
+      //   case 2:  color = rgbToHex(0, 255, 0);  break; //green
+      //   case 3:  color = rgbToHex(0, 0, 255);   break; //blue
+      //   case 4:  color = rgbToHex(0, 255, 0);  break; //white
+      //   default: color = rgbToHex(0, 0, 0); break; //yellow
+      // }
+
+      // //give x and y sides different brightness
+      // if(side == 1) {color = color / 2;}
 
       //draw the pixels of the stripe as a vertical line
     //   verLine(x, drawStart, drawEnd, color);
