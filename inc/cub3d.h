@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/10 16:24:39 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/11 13:44:59 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <mlx.h>
 # include <stdlib.h>
 # include <math.h>
+# include "../lib/gnl/get_next_line.h"
+# include "../lib/libft/libft.h"
 
 #define mapWidth 24
 #define mapHeight 24
@@ -39,9 +41,13 @@
 # define MOVE_SPEED 1
 # define ROT_SPEED 0.5
 
+# define MAX_FILE_COL 100
+# define MAX_FILE_ROW 100
+
 typedef struct s_vars t_vars;
 typedef struct s_data t_data;
 typedef struct s_map t_map;
+typedef struct s_file_data t_file_data;
 
 struct s_vars
 {
@@ -59,8 +65,18 @@ struct s_data
 	int		endian;
 };
 
+struct s_file_data
+{
+	int fd;
+	char *file_path;
+	char **line;
+	int col;
+	int row;
+};
 struct s_map
 {
+	t_file_data *file_data;
+	char **line;
 	double posX;
 	double posY;
 	double dirX;
@@ -73,6 +89,7 @@ struct s_map
 
 void raycasting(t_vars *vars);
 int	key_handle(int keycode, t_vars *vars);
+int input_file(t_map *map, char *file_path);
 
 // # include <fcntl.h>
 // # include <unistd.h>
