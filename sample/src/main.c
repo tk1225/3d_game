@@ -1,9 +1,9 @@
 #include "sample.h"
 
-uint32_t	get_color(t_data img, int x, int y)
+uint32_t	get_color(t_data *img, int x, int y)
 {
-	return (*(uint32_t*)(img.addr +
-		(y * img.line_length + x * (img.bits_per_pixel / 8))));
+	return (*(uint32_t*)(img->addr +
+		(y * img->line_length + x * (img->bits_per_pixel / 8))));
 }
 
 t_data	*img_init(t_vars *vars, char *relative_path)
@@ -53,7 +53,7 @@ int main(void)
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, screenWidth, screenHeight, "so_long");
 	t_data *img = img_init(vars, "./ghost.xpm");
-	uint32_t tmp = get_color(*img, 10, 10);
+	uint32_t tmp = get_color(img, 10, 10);
 
 	printf("%x\n", tmp);
 

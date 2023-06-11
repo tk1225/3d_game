@@ -180,6 +180,8 @@ void raycasting(t_vars *vars, t_data *img)
       if(drawEnd >= h) drawEnd = h - 1;
       //updated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+      int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+
       //calculate value of wallX
       double wallX; //where exactly the wall was hit
       if(side == 0) wallX = posY + perpWallDist * rayDirY;
@@ -199,16 +201,16 @@ void raycasting(t_vars *vars, t_data *img)
       for(int y = drawStart; y < drawEnd; y++)
       {
         // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-        int texY = (int)texPos & (texHeight - 1);
-        texPos += step;
+        // int texY = (int)texPos & (texHeight - 1);
+        // texPos += step;
         // uint32_t color = texture[texNum][texHeight * texY + texX];
 
 
-        uint32_t color = get_color(*img, x, y);
+        // uint32_t color = get_color(*img, x, y);
         // fix::color をxpmより取得
         //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-        if(side == 1) color = (color >> 1) & 8355711;
-        buffer[y][x] = color;
+        // if(side == 1) color = (color >> 1) & 8355711;
+        // buffer[y][x] = color;
         
         // fix::bufferを用意
       }
@@ -216,8 +218,8 @@ void raycasting(t_vars *vars, t_data *img)
       //updated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
       // //choose wall color
-      int color;
-      color = rgbToHex(255, 0, 0);
+      // int color;
+      // color = rgbToHex(255, 0, 0);
       // switch(worldMap[mapX][mapY])
       // {
       //   case 1:  color = rgbToHex(255, 0, 0);    break; //red
@@ -235,10 +237,13 @@ void raycasting(t_vars *vars, t_data *img)
     int i = drawStart;
     while (i < drawEnd)
     {
+        int texY = (int)texPos & (texHeight - 1);
+        texPos += step;
         // mlx_pixel_put(vars->mlx, vars->win, x, i, buffer[i][x]);
-        mlx_pixel_put(vars->mlx, vars->win, x, i, color);
+        // mlx_pixel_put(vars->mlx, vars->win, x, i, get_color(*img, texNum, texHeight * texY + texX));
+        mlx_pixel_put(vars->mlx, vars->win, x, i, get_color(img, texNum, texHeight * texY + texX));
         i ++;
     }
-    for(int y = 0; y < h; y++) for(int x = 0; x < w; x++) buffer[y][x] = 0; //clear the buffer instead of cls()
+    // for(int y = 0; y < h; y++) for(int x = 0; x < w; x++) buffer[y][x] = 0; //clear the buffer instead of cls()
     }
 }
