@@ -76,7 +76,7 @@ int	key_handle(int keycode, t_vars *vars)
   else if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-    exit(1);
+    exit(EXIT_SUCCESS);
 		return (0);
 	}
 	return (0);
