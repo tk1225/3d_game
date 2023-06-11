@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/11 12:43:26 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/11 13:44:59 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include "../lib/gnl/get_next_line.h"
+# include "../lib/libft/libft.h"
 
 #define mapWidth 24
 #define mapHeight 24
