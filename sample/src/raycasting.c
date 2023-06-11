@@ -241,7 +241,6 @@ void raycasting(t_vars *vars, t_data *img)
         // texPos += step;
         // uint32_t color = texture[texNum][texHeight * texY + texX];
 
-
         // uint32_t color = get_color(*img, x, y);
         // fix::color をxpmより取得
         //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
@@ -250,47 +249,37 @@ void raycasting(t_vars *vars, t_data *img)
         
         // fix::bufferを用意
       }
-
       //updated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      // //choose wall color
-      // int color;
-      // color = rgbToHex(255, 0, 0);
-      // switch(worldMap[mapX][mapY])
-      // {
-      //   case 1:  color = rgbToHex(255, 0, 0);    break; //red
-      //   case 2:  color = rgbToHex(0, 255, 0);  break; //green
-      //   case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-      //   case 4:  color = rgbToHex(0, 255, 0);  break; //white
-      //   default: color = rgbToHex(0, 0, 0); break; //yellow
-      // }
-
-      // //give x and y sides different brightness
-      // if(side == 1) {color = color / 2;}
-
-      //draw the pixels of the stripe as a vertical line
-    //   verLine(x, drawStart, drawEnd, color);
     int i = drawStart;
+    int ceil = 0;
+    while (ceil < drawStart)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
+      ceil ++;
+    }
     while (i < drawEnd)
     {
         int texY = (int)texPos & (texHeight - 1);
         texPos += step;
-        // mlx_pixel_put(vars->mlx, vars->win, x, i, buffer[i][x]);
-        // mlx_pixel_put(vars->mlx, vars->win, x, i, get_color(*img, texNum, texHeight * texY + texX));
-         int color;
-          color = rgbToHex(255, 0, 0);
-          switch(tmpimg[texNum][texHeight * texY + texX])
-          {
-            case 1:  color = rgbToHex(255, 0, 0);    break; //red
-            case 2:  color = rgbToHex(0, 255, 0);  break; //green
-            case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-            case 4:  color = rgbToHex(0, 255, 0);  break; //white
-            default: color = rgbToHex(255, 0, 0); break; //yellow
-          }
+        int color;
+        color = rgbToHex(255, 0, 0);
+        switch(tmpimg[texNum][texHeight * texY + texX])
+        {
+          case 1:  color = rgbToHex(255, 0, 0);    break; //red
+          case 2:  color = rgbToHex(0, 255, 0);  break; //green
+          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
+          case 4:  color = rgbToHex(0, 255, 0);  break; //white
+          default: color = rgbToHex(255, 0, 0); break; //yellow
+        }
         mlx_pixel_put(vars->mlx, vars->win, x, i, color);
-        // mlx_pixel_put(vars->mlx, vars->win, x, i, get_color(img, texNum, texHeight * texY + texX));
         i ++;
     }
-    // for(int y = 0; y < h; y++) for(int x = 0; x < w; x++) buffer[y][x] = 0; //clear the buffer instead of cls()
+    int top = drawEnd;
+    while (top < screenHeight)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, top, rgbToHex(0, 255, 0));
+      top ++;
+    }
     }
 }
