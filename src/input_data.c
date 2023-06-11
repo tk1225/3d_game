@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/11 13:11:41 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/11 13:39:02 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,26 @@ void	get_ncount(t_file_data *file_data)
 	close(file_data->fd);
 }
 
+void set_map(char **map_line, t_file_data *file_data, int map_cnt)
+{
+	int file_i;
+	int map_i;
+
+	file_i = 9;
+	map_i = 0;
+
+	while (map_cnt)
+	{
+		map_line[map_i] = ft_strdup(file_data->line[file_i - 1]);
+		if (!map_line[map_i])
+			exit(EXIT_FAILURE);
+		map_i++;
+		file_i++;
+		map_cnt--;
+	}
+}
+
+
 int input_file(t_map *map, char *file_path)
 {
 	int		i;
@@ -90,16 +110,11 @@ int input_file(t_map *map, char *file_path)
 			// error_malloc_array(file_data->line, i);
 		i++;
 	}
-	// for (int n = 0; n < file_data->row; n++)
+	map->line = malloc(sizeof(char *) * file_data->row - 8);
+	set_map(map->line, file_data,file_data->row - 8);
+	// for (int n = 0; n < file_data->row - 8; n++)
 	// {
-	// 	printf("file[%d]: %s\n", n, file_data->line[n]);
+	// 	printf("map[%d]: %s\n", n, map->line[n]);
 	// }
-	// set_map_row(map);
 	return (1);
 }
-
-// int set_map()
-// {
-// 	int fd;
-// }
-
