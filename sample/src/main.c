@@ -40,7 +40,8 @@ void	window_reflesh(t_vars *vars, int width, int height)
 int	render_next_frame(t_vars *vars)
 {
   window_reflesh(vars, screenWidth, screenHeight);
-  t_data *img = img_init(vars, "./ghost.xpm");
+//   t_data *img = img_init(vars, "./ghost.xpm");
+  t_data *img;
   raycasting(vars, img);
   return (SUCCESS);
 }
