@@ -77,7 +77,6 @@ int	key_handle(int keycode, t_vars *vars)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
     exit(EXIT_SUCCESS);
-		return (0);
 	}
 	return (0);
 }
@@ -210,5 +209,15 @@ void raycasting(t_vars *vars)
         mlx_pixel_put(vars->mlx, vars->win, x, i, color);
         i ++;
     }
+    // puts("------------------------");
+    // printf("posX:%0.2f posY: %0.2f\n", vars->map->posX, vars->map->posY);
+    // printf("dirX:%0.2f dirY: %0.2f\n", vars->map->dirX, vars->map->dirY);
+    // printf("planeX:%0.2f planeY: %0.2f\n", vars->map->planeX, vars->map->planeY);
+    // puts("------------------------");
     }
 }
+// double posX = 22, posY = 12;  //x and y start position
+// double dirX = -1, dirY = 0; //initial direction vector
+// double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
+// double time = 0; //time of current frame
+// double oldTime = 0; //time of previous frame

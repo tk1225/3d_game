@@ -6,13 +6,39 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:04:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/11 15:47:20 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/11 17:15:40 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void set_start_position(t_map *map)
+void do_right_direction(t_map *map, int r_time)
+{
+	while (r_time)
+	{
+		double oldDirX = map->dirX;
+		map->dirX = map->dirX * cos(-ROT_SPEED) - map->dirY * sin(-ROT_SPEED);
+		map->dirY = oldDirX * sin(-ROT_SPEED) + map->dirY * cos(-ROT_SPEED);
+		double oldPlaneX = map->planeX;
+		map->planeX = map->planeX * cos(-ROT_SPEED) - map->planeY * sin(-ROT_SPEED);
+		map->planeY = oldPlaneX * sin(-ROT_SPEED) + map->planeY * cos(-ROT_SPEED);
+		r_time--;
+	}
+}
+
+void init_direction(t_map *map, char d)
+{
+	if (d == 'N')
+		;
+	else if (d == 'E')
+		do_right_direction(map, 3);
+	else if (d == 'S')
+		do_right_direction(map, 6);
+	else if (d == 'W')
+		do_right_direction(map, 9);
+}
+
+void init_position(t_map *map)
 {
 	int x;
 	int y;
@@ -25,12 +51,11 @@ void set_start_position(t_map *map)
 	{
 		x = 0;
 		xlen = ft_strlen(map->line[y]);
-		printf("xlen: %d\n", xlen);
 		while (map->line[y][x] != '\n')
 		{
-			printf("line:%c\n", map->line[y][x]);
-			if (map->line[y][x] == 'N')
+			if (map->line[y][x] == 'N' || map->line[y][x] == 'E' || map->line[y][x] == 'W' || map->line[y][x] == 'S')
 			{
+				init_direction(map, map->line[y][x]);
 				map->posX = y;
 				map->posY = x;
 				map->line[y][x] = '0';
@@ -65,5 +90,5 @@ void set_map(t_map *map, t_file_data *file_data)
 		file_i++;
 		map_row--;
 	}
-	set_start_position(map);
+	init_position(map);
 }
