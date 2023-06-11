@@ -40,7 +40,8 @@ void	window_reflesh(t_vars *vars, int width, int height)
 int	render_next_frame(t_vars *vars)
 {
   window_reflesh(vars, screenWidth, screenHeight);
-  raycasting(vars);
+  t_data *img = img_init(vars, "./ghost.xpm");
+  raycasting(vars, img);
   return (SUCCESS);
 }
 
@@ -56,7 +57,7 @@ int main(void)
 
 	printf("%x\n", tmp);
 
-	raycasting(vars);
+	raycasting(vars, img);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
 	// mlx_hook(vars->win, 17, 0L, x_click_handle, vars);

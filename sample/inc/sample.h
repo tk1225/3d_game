@@ -41,5 +41,6 @@ typedef struct s_data
 	int		endian;
 }				t_data;
 
-void raycasting(t_vars *vars);
+void raycasting(t_vars *vars, t_data *img);
 int	key_handle(int keycode, t_vars *vars);
+uint32_t	get_color(t_data img, int x, int y);

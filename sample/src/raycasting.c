@@ -39,6 +39,8 @@ double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 double time = 0; //time of current frame
 double oldTime = 0; //time of previous frame
 
+uint32_t buffer[screenHeight][screenWidth];
+
 int	key_handle(int keycode, t_vars *vars)
 {
     (void)vars;
@@ -76,7 +78,7 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
-void raycasting(t_vars *vars)
+void raycasting(t_vars *vars, t_data *img)
 {
     int w = screenWidth;
     int h = screenHeight;
@@ -200,11 +202,13 @@ void raycasting(t_vars *vars)
         int texY = (int)texPos & (texHeight - 1);
         texPos += step;
         // uint32_t color = texture[texNum][texHeight * texY + texX];
-        
+
+
+        uint32_t color = get_color(*img, x, y);
         // fix::color をxpmより取得
         //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-        // if(side == 1) color = (color >> 1) & 8355711;
-        // buffer[y][x] = color;
+        if(side == 1) color = (color >> 1) & 8355711;
+        buffer[y][x] = color;
         
         // fix::bufferを用意
       }
@@ -228,12 +232,13 @@ void raycasting(t_vars *vars)
 
       //draw the pixels of the stripe as a vertical line
     //   verLine(x, drawStart, drawEnd, color);
-    // while ()
     int i = drawStart;
     while (i < drawEnd)
     {
+        // mlx_pixel_put(vars->mlx, vars->win, x, i, buffer[i][x]);
         mlx_pixel_put(vars->mlx, vars->win, x, i, color);
         i ++;
     }
+    for(int y = 0; y < h; y++) for(int x = 0; x < w; x++) buffer[y][x] = 0; //clear the buffer instead of cls()
     }
 }
