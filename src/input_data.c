@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/11 15:36:40 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:04:56 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	get_ncount(t_file_data *file_data)
 	int		buf_size;
 	char	*buf;
 
-	file_data->fd = open(file_data->file_path, O_RDONLY);
+	file_data->fd = open_file(file_data->file_path);
 	buf_size = (MAX_FILE_ROW + 1) * (MAX_FILE_COL + 1);
 	buf = malloc(sizeof(char) * buf_size);
 	if (buf == NULL)
@@ -75,7 +75,7 @@ int input_file(t_map *map, char *file_path)
 		exit(EXIT_FAILURE);
 		// exit_error(ERROR_EMPTY);
 	// file_data->fd = open_file(file_data->file_path);
-	file_data->fd = open(file_data->file_path, O_RDONLY);
+	file_data->fd = open_file(file_data->file_path);
 	file_data->line = malloc(sizeof(char *) * file_data->row);
 	if (file_data->line == NULL)
 		exit(EXIT_FAILURE);
@@ -97,4 +97,17 @@ int input_file(t_map *map, char *file_path)
 	// 	printf("map[%d]: %s\n", n, map->line[n]);
 	// }
 	return (1);
+}
+
+int	open_file(char *filepath)
+{
+	int	fd;
+
+	fd = open(filepath, O_RDONLY);
+	if (fd == -1)
+	{
+		// print_error_msg(ERROR_FILE);
+		exit(EXIT_FAILURE);
+	}
+	return (fd);
 }

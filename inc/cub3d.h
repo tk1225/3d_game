@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/11 15:36:50 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:05:13 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void raycasting(t_vars *vars);
 int	key_handle(int keycode, t_vars *vars);
 int input_file(t_map *map, char *file_path);
 void set_map(t_map *map, t_file_data *file_data);
+int	open_file(char *filepath);
 
 // # include <fcntl.h>
 // # include <unistd.h>
