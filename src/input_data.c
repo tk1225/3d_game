@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 10:04:56 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:25:27 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,6 @@ int	open_file(char *filepath)
 
 	fd = open(filepath, O_RDONLY);
 	if (fd == -1)
-	{
-		// print_error_msg(ERROR_FILE);
-		exit(EXIT_FAILURE);
-	}
+		exit_error(ERROR_FILE);
 	return (fd);
 }

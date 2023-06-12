@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 10:17:31 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:24:44 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@
 
 # define MAX_FILE_COL 100
 # define MAX_FILE_ROW 100
+
+// ----------------------------------------
+// ERROR
+// ----------------------------------------
+// file
+# define ERROR_FILE		"not exist file"
 
 typedef struct s_vars t_vars;
 typedef struct s_data t_data;
