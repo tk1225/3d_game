@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 10:25:27 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:33:02 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,9 @@ void	get_ncount(t_file_data *file_data)
 	buf_size = (MAX_FILE_ROW + 1) * (MAX_FILE_COL + 1);
 	buf = malloc(sizeof(char) * buf_size);
 	if (buf == NULL)
-		exit(EXIT_FAILURE);
-		// exit_error(ERROR_MALLOC);
+		exit_error(ERROR_MALLOC);
 	if (read(file_data->fd, buf, buf_size) == -1)
-		// exit_error(ERROR_READ);
-		exit(EXIT_FAILURE);
-
+		exit_error(ERROR_READ);
 	set_nrow_check_map_size(buf, &file_data->row);
 	free(buf);
 	close(file_data->fd);
@@ -74,12 +71,10 @@ int input_file(t_map *map, char *file_path)
 	if (!(file_data->row))
 		exit(EXIT_FAILURE);
 		// exit_error(ERROR_EMPTY);
-	// file_data->fd = open_file(file_data->file_path);
 	file_data->fd = open_file(file_data->file_path);
 	file_data->line = malloc(sizeof(char *) * file_data->row);
 	if (file_data->line == NULL)
-		exit(EXIT_FAILURE);
-		// exit_error(ERROR_MALLOC);
+		exit_error(ERROR_MALLOC);
 	// map->c_cnt = 0;
 	i = 0;
 	while (i < file_data->row)

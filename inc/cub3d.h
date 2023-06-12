@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 10:24:44 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:31:31 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@
 // ----------------------------------------
 // file
 # define ERROR_FILE		"not exist file"
+
+// system
+# define ERROR_MALLOC	"error malloc"
+# define ERROR_READ		"error read"
+
 
 typedef struct s_vars t_vars;
 typedef struct s_data t_data;
