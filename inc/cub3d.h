@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 10:48:32 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 14:45:45 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@
 // ERROR
 // ----------------------------------------
 // file
-# define ERROR_ARGS		"not args 2"
-# define ERROR_FILE		"not exist file"
-# define ERROR_CUB		"not cub file"
+# define ERROR_ARGS			"not args 2"
+# define ERROR_FILE			"not exist file"
+# define ERROR_CUB			"not cub file"
+# define ERROR_MAP_VALUE	"Illegal value in map"
+# define ERROR_INIT_POINT	"not one start point"
 
 
 // system
@@ -109,6 +111,7 @@ void set_map(t_map *map, t_file_data *file_data);
 int	open_file(char *filepath);
 void	exit_error(const char *message);
 void	check_pre(int argc, char **argv);
+void	check_map(t_map *map);
 
 // # include <fcntl.h>
 // # include <unistd.h>

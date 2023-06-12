@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:04:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 10:34:09 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 14:45:54 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,13 @@ void init_position(t_map *map)
 {
 	int x;
 	int y;
-	int xlen;
 	int map_row;
 
 	map_row = map->row;
-	y = 1;
+	y = 0;
 	while (map_row)
 	{
 		x = 0;
-		xlen = ft_strlen(map->line[y]);
 		while (map->line[y][x] != '\n')
 		{
 			if (map->line[y][x] == 'N' || map->line[y][x] == 'E' || map->line[y][x] == 'W' || map->line[y][x] == 'S')
@@ -63,7 +61,6 @@ void init_position(t_map *map)
 				return ;
 			}
 			x++;
-			xlen--;
 		}
 		y++;
 		map_row--;
@@ -90,5 +87,6 @@ void set_map(t_map *map, t_file_data *file_data)
 		file_i++;
 		map_row--;
 	}
+	check_map(map);
 	init_position(map);
 }

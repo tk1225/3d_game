@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 10:48:52 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 15:00:32 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int main(int argc, char **argv)
 	check_pre(argc, argv);
 	vars = (t_vars *)malloc(sizeof(t_vars));
 	vars->map = map_init();
-	input_file(vars->map, "map/map1.cub");
+	input_file(vars->map, argv[1]);
 	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, screenWidth, screenHeight, "so_long");
+	vars->win = mlx_new_window(vars->mlx, screenWidth, screenHeight, "cub3d");
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
