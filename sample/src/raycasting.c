@@ -33,11 +33,49 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+int tmpimg[32][32]=
+{
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,0,0,3,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
+
 double posX = 22, posY = 12;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 double time = 0; //time of current frame
 double oldTime = 0; //time of previous frame
+
+uint32_t buffer[screenHeight][screenWidth];
 
 int	key_handle(int keycode, t_vars *vars)
 {
@@ -76,7 +114,7 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
-void raycasting(t_vars *vars)
+void raycasting(t_vars *vars, t_data *img)
 {
     int w = screenWidth;
     int h = screenHeight;
@@ -169,34 +207,79 @@ void raycasting(t_vars *vars)
       //Calculate height of line to draw on screen
       int lineHeight = (int)(h / perpWallDist);
 
+      int pitch = 100;
+
       //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2;
+      int drawStart = -lineHeight / 2 + h / 2 + pitch;
       if(drawStart < 0) drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2;
+      int drawEnd = lineHeight / 2 + h / 2 + pitch;
       if(drawEnd >= h) drawEnd = h - 1;
+      //updated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      //choose wall color
-      int color;
-      switch(worldMap[mapX][mapY])
+      int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+
+      //calculate value of wallX
+      double wallX; //where exactly the wall was hit
+      if(side == 0) wallX = posY + perpWallDist * rayDirY;
+      else          wallX = posX + perpWallDist * rayDirX;
+      wallX -= floor((wallX));
+
+      //x coordinate on the texture
+      int texX = (int)(wallX * (double)(texWidth));
+      if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
+      if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+
+      // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
+      // How much to increase the texture coordinate per screen pixel
+      double step = 1.0 * texHeight / lineHeight;
+      // Starting texture coordinate
+      double texPos = (drawStart - pitch - h / 2 + lineHeight / 2) * step;
+      for(int y = drawStart; y < drawEnd; y++)
       {
-        case 1:  color = rgbToHex(255, 0, 0);    break; //red
-        case 2:  color = rgbToHex(0, 255, 0);  break; //green
-        case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-        case 4:  color = rgbToHex(0, 255, 0);  break; //white
-        default: color = rgbToHex(0, 0, 0); break; //yellow
+        // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+        // int texY = (int)texPos & (texHeight - 1);
+        // texPos += step;
+        // uint32_t color = texture[texNum][texHeight * texY + texX];
+
+        // uint32_t color = get_color(*img, x, y);
+        // fix::color をxpmより取得
+        //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+        // if(side == 1) color = (color >> 1) & 8355711;
+        // buffer[y][x] = color;
+        
+        // fix::bufferを用意
       }
+      //updated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      //give x and y sides different brightness
-      if(side == 1) {color = color / 2;}
-
-      //draw the pixels of the stripe as a vertical line
-    //   verLine(x, drawStart, drawEnd, color);
-    // while ()
     int i = drawStart;
+    int ceil = 0;
+    while (ceil < drawStart)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
+      ceil ++;
+    }
     while (i < drawEnd)
     {
+        int texY = (int)texPos & (texHeight - 1);
+        texPos += step;
+        int color;
+        color = rgbToHex(255, 0, 0);
+        switch(tmpimg[texNum][texHeight * texY + texX])
+        {
+          case 1:  color = rgbToHex(255, 0, 0);    break; //red
+          case 2:  color = rgbToHex(0, 255, 0);  break; //green
+          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
+          case 4:  color = rgbToHex(0, 255, 0);  break; //white
+          default: color = rgbToHex(255, 0, 0); break; //yellow
+        }
         mlx_pixel_put(vars->mlx, vars->win, x, i, color);
         i ++;
+    }
+    int top = drawEnd;
+    while (top < screenHeight)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, top, rgbToHex(0, 255, 0));
+      top ++;
     }
     }
 }
