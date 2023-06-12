@@ -160,7 +160,7 @@ void raycasting(t_vars *vars)
           side = 1;
         }
         //Check if ray has hit a wall
-        if(vars->map->line[mapX][mapY] > '0') hit = 1;
+        if(vars->map->line[mapX][mapY] > '0' || vars->map->line[mapX][mapY] == ' ') hit = 1;
         // if(worldMap[mapX][mapY] > 0) hit = 1;
       }
       //Calculate distance projected on camera direction. This is the shortest distance from the point where the wall is
