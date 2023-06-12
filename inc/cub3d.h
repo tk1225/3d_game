@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/11 15:36:50 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:48:32 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@
 
 # define MAX_FILE_COL 100
 # define MAX_FILE_ROW 100
+
+// ----------------------------------------
+// ERROR
+// ----------------------------------------
+// file
+# define ERROR_ARGS		"not args 2"
+# define ERROR_FILE		"not exist file"
+# define ERROR_CUB		"not cub file"
+
+
+// system
+# define ERROR_MALLOC	"error malloc"
+# define ERROR_READ		"error read"
+
 
 typedef struct s_vars t_vars;
 typedef struct s_data t_data;
@@ -92,6 +106,9 @@ void raycasting(t_vars *vars);
 int	key_handle(int keycode, t_vars *vars);
 int input_file(t_map *map, char *file_path);
 void set_map(t_map *map, t_file_data *file_data);
+int	open_file(char *filepath);
+void	exit_error(const char *message);
+void	check_pre(int argc, char **argv);
 
 // # include <fcntl.h>
 // # include <unistd.h>

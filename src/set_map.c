@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:04:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/11 17:15:40 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:34:09 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void set_map(t_map *map, t_file_data *file_data)
 	{
 		map->line[map_i] = ft_strdup(file_data->line[file_i - 1]);
 		if (!map->line[map_i])
-			exit(EXIT_FAILURE);
+			exit_error(ERROR_MALLOC);
 		map_i++;
 		file_i++;
 		map_row--;
