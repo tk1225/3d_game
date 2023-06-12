@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/11 15:57:24 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:48:52 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ t_map *map_init()
 	return (map);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 	t_vars *vars;
 
+	check_pre(argc, argv);
 	vars = (t_vars *)malloc(sizeof(t_vars));
 	vars->map = map_init();
 	input_file(vars->map, "map/map1.cub");

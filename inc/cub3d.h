@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 10:31:31 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 10:48:32 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@
 // ERROR
 // ----------------------------------------
 // file
+# define ERROR_ARGS		"not args 2"
 # define ERROR_FILE		"not exist file"
+# define ERROR_CUB		"not cub file"
+
 
 // system
 # define ERROR_MALLOC	"error malloc"
@@ -105,6 +108,7 @@ int input_file(t_map *map, char *file_path);
 void set_map(t_map *map, t_file_data *file_data);
 int	open_file(char *filepath);
 void	exit_error(const char *message);
+void	check_pre(int argc, char **argv);
 
 // # include <fcntl.h>
 // # include <unistd.h>
