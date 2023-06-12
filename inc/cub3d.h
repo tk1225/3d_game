@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 14:45:45 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 15:35:59 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 #define RIGHT_KEY_M1 65363
 #define DOWN_KEY_M1 65364
 #define UP_KEY_M1 65362
+#define MAX_MAP_COL	50
+#define MAX_MAP_ROW	50
 
 # define MOVE_SPEED 1
 # define ROT_SPEED 0.5
@@ -51,9 +53,12 @@
 # define ERROR_ARGS			"not args 2"
 # define ERROR_FILE			"not exist file"
 # define ERROR_CUB			"not cub file"
+
+// map
+# define ERROR_BIG_MAP		"map too big"
+# define ERROR_SMALL_MAP		"map too small"
 # define ERROR_MAP_VALUE	"Illegal value in map"
 # define ERROR_INIT_POINT	"not one start point"
-
 
 // system
 # define ERROR_MALLOC	"error malloc"

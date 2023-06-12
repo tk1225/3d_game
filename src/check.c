@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:45:30 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 14:52:51 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 15:20:14 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	check_map(t_map *map)
 				map->line[y][x] == ' '))
 				exit_error(ERROR_MAP_VALUE);
 			x++;
+			if (x > MAX_MAP_COL)
+				exit_error(ERROR_BIG_MAP);
 		}
 		y++;
 		map_row--;
