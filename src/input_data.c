@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 10:33:02 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/12 15:39:31 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	get_ncount(t_file_data *file_data)
 int input_file(t_map *map, char *file_path)
 {
 	int		i;
-
-	(void) map;
 	t_file_data *file_data;
 
 	file_data = malloc(sizeof(t_file_data));
@@ -75,7 +73,6 @@ int input_file(t_map *map, char *file_path)
 	file_data->line = malloc(sizeof(char *) * file_data->row);
 	if (file_data->line == NULL)
 		exit_error(ERROR_MALLOC);
-	// map->c_cnt = 0;
 	i = 0;
 	while (i < file_data->row)
 	{
@@ -85,12 +82,12 @@ int input_file(t_map *map, char *file_path)
 			// error_malloc_array(file_data->line, i);
 		i++;
 	}
+	if (file_data->row - 8 > MAX_MAP_ROW)
+		exit_error(ERROR_BIG_MAP);
+	if (file_data->row - 8 < 3)
+		exit_error(ERROR_SMALL_MAP);
 	map->line = malloc(sizeof(char *) * file_data->row - 8);
 	set_map(map, file_data);
-	// for (int n = 0; n < file_data->row - 8; n++)
-	// {
-	// 	printf("map[%d]: %s\n", n, map->line[n]);
-	// }
 	return (1);
 }
 
