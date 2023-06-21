@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:13:19 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 10:17:08 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/14 12:17:48 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_error(const char *message)
 {
-	printf("ERROR !!\n");
+	printf("ERROR \n");
 	printf(" ---> %s\n", message);
 	exit(EXIT_FAILURE);
 }
