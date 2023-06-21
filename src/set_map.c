@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:04:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 14:45:54 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/21 13:26:43 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void set_map(t_map *map, t_file_data *file_data)
 	int map_i;
 	int map_row;
 
-	file_i = 9;
+	file_i = file_data->row_map_start + 1;
 	map_i = 0;
-	map->row = file_data->row - 8;
+	map->row = file_data->row - file_data->row_map_start;
 	map_row = map->row;
 
 	while (map_row)

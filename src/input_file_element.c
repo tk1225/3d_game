@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:25:07 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/21 12:13:46 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/21 13:29:32 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void setting_element(t_file_data *file_data)
 	line = get_element_line(file_data, "NO ");
 	if (line)
 		file_data->texture_no = set_texture(line);
-	printf("texture_no:%s\n", file_data->texture_no);
 	line = get_element_line(file_data, "SO ");
 	if (line)
 		file_data->texture_so = set_texture(line);

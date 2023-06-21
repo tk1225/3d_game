@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/21 12:00:05 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/21 13:29:09 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,29 @@ void	get_ncount(t_file_data *file_data)
 	close(file_data->fd);
 }
 
+int	set_map_start(t_file_data *file_data)
+{
+	int i;
+
+	i = 0;
+	while(i < file_data->row)
+	{
+		if (ft_strnstr(file_data->line[i], "NO", 2) || ft_strnstr(file_data->line[i], "SO", 2) ||
+			ft_strnstr(file_data->line[i], "WE", 2) || ft_strnstr(file_data->line[i], "EA", 2) ||
+			ft_strnstr(file_data->line[i], "F", 1) || ft_strnstr(file_data->line[i], "C", 2))
+			// ft_strncmp(file_data->line[i], "\n", 2))
+			{
+				i++;
+				continue;
+			}
+		if (ft_strchr(file_data->line[i],'0') || ft_strchr(file_data->line[i],'1'))
+			return (i);
+		i++;
+	}
+	exit_error(ERROR_FORMAT);
+	return (0);
+}
+
 int input_file(t_map *map, char *file_path)
 {
 	int		i;
@@ -82,23 +105,24 @@ int input_file(t_map *map, char *file_path)
 			// error_malloc_array(file_data->line, i);
 		i++;
 	}
-	if (file_data->row - 8 > MAX_MAP_ROW)
+	file_data->row_map_start = set_map_start(file_data);
+	if (file_data->row - file_data->row_map_start > MAX_MAP_ROW)
 		exit_error(ERROR_BIG_MAP);
-	if (file_data->row - 8 < 3)
+	if (file_data->row - file_data->row_map_start < 3)
 		exit_error(ERROR_SMALL_MAP);
-	map->line = malloc(sizeof(char *) * file_data->row - 8);
+	map->line = malloc(sizeof(char *) * file_data->row - file_data->row_map_start);
 	setting_element(file_data);
 	set_map(map, file_data);
-	printf("texture_no:%s\n", file_data->texture_no);
-	printf("texture_so:%s\n", file_data->texture_so);
-	printf("texture_we:%s\n", file_data->texture_we);
-	printf("texture_ea:%s\n", file_data->texture_ea);
-	printf("floor_rgb[0]:%d\n", file_data->floor_rgb[0]);
-	printf("floor_rgb[1]:%d\n", file_data->floor_rgb[1]);
-	printf("floor_rgb[2]:%d\n", file_data->floor_rgb[2]);
-	printf("ceiling_rgb[0]:%d\n", file_data->ceiling_rgb[0]);
-	printf("ceiling_rgb[1]:%d\n", file_data->ceiling_rgb[1]);
-	printf("ceiling_rgb[2]:%d\n", file_data->ceiling_rgb[2]);
+	// printf("texture_no:%s\n", file_data->texture_no);
+	// printf("texture_so:%s\n", file_data->texture_so);
+	// printf("texture_we:%s\n", file_data->texture_we);
+	// printf("texture_ea:%s\n", file_data->texture_ea);
+	// printf("floor_rgb[0]:%d\n", file_data->floor_rgb[0]);
+	// printf("floor_rgb[1]:%d\n", file_data->floor_rgb[1]);
+	// printf("floor_rgb[2]:%d\n", file_data->floor_rgb[2]);
+	// printf("ceiling_rgb[0]:%d\n", file_data->ceiling_rgb[0]);
+	// printf("ceiling_rgb[1]:%d\n", file_data->ceiling_rgb[1]);
+	// printf("ceiling_rgb[2]:%d\n", file_data->ceiling_rgb[2]);
 	return (1);
 }
 

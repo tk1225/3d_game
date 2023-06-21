@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/21 11:48:55 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/21 13:03:27 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ struct s_file_data
 	char **line;
 	int col;
 	int row;
+	int row_map_start;
 	char *texture_no;
 	char *texture_so;
 	char *texture_we;
