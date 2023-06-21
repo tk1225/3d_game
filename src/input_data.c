@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 15:39:31 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/21 12:00:05 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,18 @@ int input_file(t_map *map, char *file_path)
 	if (file_data->row - 8 < 3)
 		exit_error(ERROR_SMALL_MAP);
 	map->line = malloc(sizeof(char *) * file_data->row - 8);
+	setting_element(file_data);
 	set_map(map, file_data);
+	printf("texture_no:%s\n", file_data->texture_no);
+	printf("texture_so:%s\n", file_data->texture_so);
+	printf("texture_we:%s\n", file_data->texture_we);
+	printf("texture_ea:%s\n", file_data->texture_ea);
+	printf("floor_rgb[0]:%d\n", file_data->floor_rgb[0]);
+	printf("floor_rgb[1]:%d\n", file_data->floor_rgb[1]);
+	printf("floor_rgb[2]:%d\n", file_data->floor_rgb[2]);
+	printf("ceiling_rgb[0]:%d\n", file_data->ceiling_rgb[0]);
+	printf("ceiling_rgb[1]:%d\n", file_data->ceiling_rgb[1]);
+	printf("ceiling_rgb[2]:%d\n", file_data->ceiling_rgb[2]);
 	return (1);
 }
 

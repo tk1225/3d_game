@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 15:35:59 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/21 11:48:55 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 # define ERROR_ARGS			"not args 2"
 # define ERROR_FILE			"not exist file"
 # define ERROR_CUB			"not cub file"
+# define ERROR_FORMAT		"bad file format"
 
 // map
 # define ERROR_BIG_MAP		"map too big"
@@ -93,6 +94,12 @@ struct s_file_data
 	char **line;
 	int col;
 	int row;
+	char *texture_no;
+	char *texture_so;
+	char *texture_we;
+	char *texture_ea;
+	int  floor_rgb[3];
+	int  ceiling_rgb[3];
 };
 struct s_map
 {
@@ -112,6 +119,7 @@ struct s_map
 void raycasting(t_vars *vars);
 int	key_handle(int keycode, t_vars *vars);
 int input_file(t_map *map, char *file_path);
+void setting_element(t_file_data *file_data);
 void set_map(t_map *map, t_file_data *file_data);
 int	open_file(char *filepath);
 void	exit_error(const char *message);
