@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:04:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/21 13:26:43 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/22 15:53:08 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,5 @@ void set_map(t_map *map, t_file_data *file_data)
 	}
 	check_map(map);
 	init_position(map);
+	check_wall(map);
 }

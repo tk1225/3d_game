@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/21 13:40:14 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/22 15:47:59 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@
 # define ERROR_SMALL_MAP		"map too small"
 # define ERROR_MAP_VALUE	"Illegal value in map"
 # define ERROR_INIT_POINT	"not one start point"
+# define ERROR_NOT_SURROND	"not surrounded by walls"
 
 // system
 # define ERROR_MALLOC	"error malloc"
@@ -129,6 +130,7 @@ int	open_file(char *filepath);
 void	exit_error(const char *message);
 void	check_pre(int argc, char **argv);
 void	check_map(t_map *map);
+void 	check_wall(t_map *map);
 
 // # include <fcntl.h>
 // # include <unistd.h>
