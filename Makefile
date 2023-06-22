@@ -6,7 +6,7 @@
 #    By: terabu <terabu@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/31 18:31:13 by takuokam          #+#    #+#              #
-#    Updated: 2023/06/21 11:53:00 by terabu           ###   ########.fr        #
+#    Updated: 2023/06/22 15:52:01 by terabu           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_DIR	:=	src/
 OBJ_DIR	:=	objs/
 
 # SRCS_NAME	:= main.c map_reading.c utils.c window.c event_handle.c put_digit_num.c player.c ghost.c treat_img.c game_end.c error_map_reading.c error_map_reading_second.c raycasting.c
-SRCS_NAME	:= main.c raycasting.c input_data.c set_map.c error_handle.c check.c input_file_element.c
+SRCS_NAME	:= main.c raycasting.c input_data.c set_map.c error_handle.c check.c input_file_element.c check_wall.c
 OBJS_NAME	:= $(SRCS_NAME:.c=.o)
 # OBJS_NAME	:= main.o map_reading.o utils.o window.o event_handle.o put_digit_num.o player.o ghost.o treat_img.o game_end.o error_map_reading.o error_map_reading_second.o
 # MAP_CHECK_NAME	:=	error_map_reading.c error_map_reading_second.c
