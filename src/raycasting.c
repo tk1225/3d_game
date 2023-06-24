@@ -69,12 +69,6 @@ int tmpimg[32][32]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-// double posX = 22, posY = 12;  //x and y start position
-// double dirX = -1, dirY = 0; //initial direction vector
-// double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-// double time = 0; //time of current frame
-// double oldTime = 0; //time of previous frame
-
 int	key_handle(int keycode, t_vars *vars)
 {
     (void)vars;
@@ -238,27 +232,7 @@ void raycasting(t_vars *vars)
       double step = 1.0 * texHeight / lineHeight;
       // Starting texture coordinate
       double texPos = (drawStart - pitch - h / 2 + lineHeight / 2) * step;
-      // switch(vars->map->line[mapX][mapY])
-      // {
-      //   case '1':  color = rgbToHex(255, 0, 0);    break; //red
-      //   case '2':  color = rgbToHex(0, 255, 0);  break; //green
-      //   case '3':  color = rgbToHex(0, 0, 255);   break; //blue
-      //   case '4':  color = rgbToHex(0, 255, 0);  break; //white
-      //   default: color = rgbToHex(0, 0, 0); break; //yellow
-      // }
 
-      //give x and y sides different brightness
-      // if(side == 1) {color = color / 2;}
-
-      //draw the pixels of the stripe as a vertical line
-    //   verLine(x, drawStart, drawEnd, color);
-    // while ()
-    // int i = drawStart;
-    // while (i < drawEnd)
-    // {
-    //     mlx_pixel_put(vars->mlx, vars->win, x, i, color);
-    //     i ++;
-    // }
     int i = drawStart;
     int ceil = 0;
     while (ceil < drawStart)
