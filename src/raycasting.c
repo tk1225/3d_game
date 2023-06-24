@@ -111,14 +111,19 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
+// void draw(int drawStart, int drawEnd, t_vars *vars, int x)
+// {
+ 
+// }
+
 void raycasting(t_vars *vars)
 {
-    int w = screenWidth;
-    int h = screenHeight;
-    for (int x = 0; x < w; x++)
+    // int w = screenWidth;
+    // int h = screenHeight;
+    for (int x = 0; x < screenWidth; x++)
     {
       //calculate ray position and direction
-      double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
+      double cameraX = 2 * x / (double)screenWidth - 1; //x-coordinate in camera space
       double rayDirX = vars->map->dirX + vars->map->planeX * cameraX;
       double rayDirY = vars->map->dirY + vars->map->planeY * cameraX;
       //which box of the map we're in
@@ -203,16 +208,16 @@ void raycasting(t_vars *vars)
       else          perpWallDist = (sideDistY - deltaDistY);
 
       //Calculate height of line to draw on screen
-      int lineHeight = (int)(h / perpWallDist);
+      int lineHeight = (int)(screenHeight / perpWallDist);
 
-      int pitch = 100;
+      // int pitch = 100;
 
       //calculate lowest and highest pixel to fill in current stripe
 
-      int drawStart = -lineHeight / 2 + h / 2 + pitch;
+      int drawStart = -lineHeight / 2 + screenHeight / 2 + PITCH;
       if(drawStart < 0) drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2 + pitch;
-      if(drawEnd >= h) drawEnd = h - 1;
+      int drawEnd = lineHeight / 2 + screenHeight / 2 + PITCH;
+      if(drawEnd >= screenHeight) drawEnd = screenHeight - 1;
       //choose wall color
       // int color;
       int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
@@ -229,11 +234,10 @@ void raycasting(t_vars *vars)
 
       // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
       // How much to increase the texture coordinate per screen pixel
-      double step = 1.0 * texHeight / lineHeight;
+       double step = 1.0 * texHeight / lineHeight;
       // Starting texture coordinate
-      double texPos = (drawStart - pitch - h / 2 + lineHeight / 2) * step;
-
-    int i = drawStart;
+      double texPos = (drawStart - PITCH - screenHeight / 2 + lineHeight / 2) * step;
+   int i = drawStart;
     int ceil = 0;
     while (ceil < drawStart)
     {
@@ -263,15 +267,5 @@ void raycasting(t_vars *vars)
       mlx_pixel_put(vars->mlx, vars->win, x, top, rgbToHex(0, 255, 0));
       top ++;
     }
-    // puts("------------------------");
-    // printf("posX:%0.2f posY: %0.2f\n", vars->map->posX, vars->map->posY);
-    // printf("dirX:%0.2f dirY: %0.2f\n", vars->map->dirX, vars->map->dirY);
-    // printf("planeX:%0.2f planeY: %0.2f\n", vars->map->planeX, vars->map->planeY);
-    // puts("------------------------");
     }
 }
-// double posX = 22, posY = 12;  //x and y start position
-// double dirX = -1, dirY = 0; //initial direction vector
-// double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-// double time = 0; //time of current frame
-// double oldTime = 0; //time of previous frame
