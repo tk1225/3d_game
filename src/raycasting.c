@@ -84,10 +84,37 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
-// void draw(int drawStart, int drawEnd, t_vars *vars, int x)
-// {
- 
-// }
+void draw(int drawStart, int drawEnd, t_vars *vars, int x, int texX, int texNum, double step, double texPos)
+{
+  int ceil = 0;
+    while (ceil < drawStart)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
+      ceil ++;
+    }
+    while (drawStart < drawEnd)
+    {
+        int texY = (int)texPos & (texHeight - 1);
+        texPos += step;
+        int color;
+        color = rgbToHex(255, 0, 0);
+        switch(tmpimg[texNum][texHeight * texY + texX])
+        {
+          case 1:  color = rgbToHex(255, 0, 0);    break; //red
+          case 2:  color = rgbToHex(0, 255, 0);  break; //green
+          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
+          case 4:  color = rgbToHex(0, 255, 0);  break; //white
+          default: color = rgbToHex(255, 0, 0); break; //yellow
+        }
+        mlx_pixel_put(vars->mlx, vars->win, x, drawStart, color);
+        drawStart ++;
+    }
+    while (drawEnd < screenHeight)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, drawEnd, rgbToHex(0, 255, 0));
+      drawEnd ++;
+    }
+}
 
 void raycasting(t_vars *vars)
 {
@@ -167,7 +194,6 @@ void raycasting(t_vars *vars)
         }
         //Check if ray has hit a wall
         if(vars->map->line[mapX][mapY] > '0' || vars->map->line[mapX][mapY] == ' ') hit = 1;
-        // if(worldMap[mapX][mapY] > 0) hit = 1;
       }
       //Calculate distance projected on camera direction. This is the shortest distance from the point where the wall is
       //hit to the camera plane. Euclidean to center camera point would give fisheye effect!
@@ -180,8 +206,6 @@ void raycasting(t_vars *vars)
 
       //Calculate height of line to draw on screen
       int lineHeight = (int)(screenHeight / perpWallDist);
-
-      // int pitch = 100;
 
       //calculate lowest and highest pixel to fill in current stripe
 
@@ -204,38 +228,9 @@ void raycasting(t_vars *vars)
 
       // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
       // How much to increase the texture coordinate per screen pixel
-       double step = 1.0 * texHeight / lineHeight;
+      double step = 1.0 * texHeight / lineHeight;
       // Starting texture coordinate
       double texPos = (drawStart - PITCH - screenHeight / 2 + lineHeight / 2) * step;
-   int i = drawStart;
-    int ceil = 0;
-    while (ceil < drawStart)
-    {
-      mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
-      ceil ++;
-    }
-    while (i < drawEnd)
-    {
-        int texY = (int)texPos & (texHeight - 1);
-        texPos += step;
-        int color;
-        color = rgbToHex(255, 0, 0);
-        switch(tmpimg[texNum][texHeight * texY + texX])
-        {
-          case 1:  color = rgbToHex(255, 0, 0);    break; //red
-          case 2:  color = rgbToHex(0, 255, 0);  break; //green
-          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-          case 4:  color = rgbToHex(0, 255, 0);  break; //white
-          default: color = rgbToHex(255, 0, 0); break; //yellow
-        }
-        mlx_pixel_put(vars->mlx, vars->win, x, i, color);
-        i ++;
-    }
-    int top = drawEnd;
-    while (top < screenHeight)
-    {
-      mlx_pixel_put(vars->mlx, vars->win, x, top, rgbToHex(0, 255, 0));
-      top ++;
-    }
+      draw(drawStart, drawEnd, vars, x, texX, texNum, step, texPos);
     }
 }
