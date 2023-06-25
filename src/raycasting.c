@@ -109,7 +109,7 @@ void draw(int drawStart, int drawEnd, t_vars *vars, int x, int texX, int texNum,
         mlx_pixel_put(vars->mlx, vars->win, x, drawStart, color);
         drawStart ++;
     }
-    while (drawEnd < screenHeight)
+    while (drawEnd < SCREEN_HEIGHT)
     {
       mlx_pixel_put(vars->mlx, vars->win, x, drawEnd, rgbToHex(0, 255, 0));
       drawEnd ++;
@@ -118,10 +118,10 @@ void draw(int drawStart, int drawEnd, t_vars *vars, int x, int texX, int texNum,
 
 void raycasting(t_vars *vars)
 {
-    for (int x = 0; x < screenWidth; x++)
+    for (int x = 0; x < SCREEN_WIDTH; x++)
     {
       //calculate ray position and direction
-      double cameraX = 2 * x / (double)screenWidth - 1; //x-coordinate in camera space
+      double cameraX = 2 * x / (double)SCREEN_WIDTH - 1; //x-coordinate in camera space
       double rayDirX = vars->map->dirX + vars->map->planeX * cameraX;
       double rayDirY = vars->map->dirY + vars->map->planeY * cameraX;
       //which box of the map we're in
@@ -141,8 +141,8 @@ void raycasting(t_vars *vars)
       //unlike (dirX, dirY) is not 1, however this does not matter, only the
       //ratio between deltaDistX and deltaDistY matters, due to the way the DDA
       //stepping further below works. So the values can be computed as below.
-      // Division through zero is prevented, even though technically that's not
-      // needed in C++ with IEEE 754 floating point values.
+      //Division through zero is prevented, even though technically that's not
+      //needed in C++ with IEEE 754 floating point values.
       double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
       double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
 
@@ -205,14 +205,14 @@ void raycasting(t_vars *vars)
       else          perpWallDist = (sideDistY - deltaDistY);
 
       //Calculate height of line to draw on screen
-      int lineHeight = (int)(screenHeight / perpWallDist);
+      int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 
       //calculate lowest and highest pixel to fill in current stripe
 
-      int drawStart = -lineHeight / 2 + screenHeight / 2 + PITCH;
+      int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
       if(drawStart < 0) drawStart = 0;
-      int drawEnd = lineHeight / 2 + screenHeight / 2 + PITCH;
-      if(drawEnd >= screenHeight) drawEnd = screenHeight - 1;
+      int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
+      if(drawEnd >= SCREEN_HEIGHT) drawEnd = SCREEN_HEIGHT - 1;
       //choose wall color
       int texNum = vars->map->line[mapX][mapY] - 48 - 1;//1 subtracted from it so that texture 0 can be used!
       //calculate value of wallX
@@ -230,7 +230,7 @@ void raycasting(t_vars *vars)
       // How much to increase the texture coordinate per screen pixel
       double step = 1.0 * texHeight / lineHeight;
       // Starting texture coordinate
-      double texPos = (drawStart - PITCH - screenHeight / 2 + lineHeight / 2) * step;
+      double texPos = (drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * step;
       draw(drawStart, drawEnd, vars, x, texX, texNum, step, texPos);
     }
 }
