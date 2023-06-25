@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/12 23:29:52 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/06/25 19:29:22 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	window_reflesh(t_vars *vars, int width, int height)
 
 int	render_next_frame(t_vars *vars)
 {
-  window_reflesh(vars, screenWidth, screenHeight);
+  window_reflesh(vars, SCREEN_WIDTH, SCREEN_HEIGHT);
   raycasting(vars);
   return (SUCCESS);
 }
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 	vars->map = map_init();
 	input_file(vars->map, argv[1]);
 	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, screenWidth, screenHeight, "cub3d");
+	vars->win = mlx_new_window(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);

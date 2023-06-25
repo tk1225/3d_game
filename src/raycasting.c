@@ -5,34 +5,6 @@ int rgbToHex(int red, int green, int blue) {
     return hexCode;
 }
 
-int worldMap[mapWidth][mapHeight]=
-{
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},// 中央がスタート？
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
-
 int tmpimg[32][32]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -69,15 +41,8 @@ int tmpimg[32][32]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-// double posX = 22, posY = 12;  //x and y start position
-// double dirX = -1, dirY = 0; //initial direction vector
-// double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-// double time = 0; //time of current frame
-// double oldTime = 0; //time of previous frame
-
 int	key_handle(int keycode, t_vars *vars)
 {
-    (void)vars;
 	printf("%d\n", keycode);
 	if (keycode == LEFT_KEY || keycode == LEFT_KEY_M1)
     {
@@ -99,14 +64,16 @@ int	key_handle(int keycode, t_vars *vars)
     }
 	else if (keycode == DOWN_KEY || keycode == DOWN_KEY_M1)
 	{
-        vars->map->posX -= vars->map->dirX * MOVE_SPEED;
-        vars->map->posY -= vars->map->dirY * MOVE_SPEED;
+    if(vars->map->line[(int)(vars->map->posX + vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
+      vars->map->posX -= vars->map->dirX * MOVE_SPEED;
+    if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + vars->map->dirY * MOVE_SPEED)] == '0')
+      vars->map->posY -= vars->map->dirY * MOVE_SPEED;
     }
 	else if (keycode == UP_KEY || keycode == UP_KEY_M1)
 	{
-        if(vars->map->line[(int)(vars->map->posX + vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
+        if(vars->map->line[(int)(vars->map->posX - vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
             vars->map->posX += vars->map->dirX * MOVE_SPEED;
-        if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + vars->map->dirY * MOVE_SPEED)] == '0')
+        if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY - vars->map->dirY * MOVE_SPEED)] == '0')
             vars->map->posY += vars->map->dirY * MOVE_SPEED;
   }
   else if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
@@ -117,14 +84,44 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
+void draw(int drawStart, int drawEnd, t_vars *vars, int x, int texX, int texNum, double step, double texPos)
+{
+  int ceil = 0;
+    while (ceil < drawStart)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
+      ceil ++;
+    }
+    while (drawStart < drawEnd)
+    {
+        int texY = (int)texPos & (texHeight - 1);
+        texPos += step;
+        int color;
+        color = rgbToHex(255, 0, 0);
+        switch(tmpimg[texNum][texHeight * texY + texX])
+        {
+          case 1:  color = rgbToHex(255, 0, 0);    break; //red
+          case 2:  color = rgbToHex(0, 255, 0);  break; //green
+          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
+          case 4:  color = rgbToHex(0, 255, 0);  break; //white
+          default: color = rgbToHex(255, 0, 0); break; //yellow
+        }
+        mlx_pixel_put(vars->mlx, vars->win, x, drawStart, color);
+        drawStart ++;
+    }
+    while (drawEnd < SCREEN_HEIGHT)
+    {
+      mlx_pixel_put(vars->mlx, vars->win, x, drawEnd, rgbToHex(0, 255, 0));
+      drawEnd ++;
+    }
+}
+
 void raycasting(t_vars *vars)
 {
-    int w = screenWidth;
-    int h = screenHeight;
-    for (int x = 0; x < w; x++)
+    for (int x = 0; x < SCREEN_WIDTH; x++)
     {
       //calculate ray position and direction
-      double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
+      double cameraX = 2 * x / (double)SCREEN_WIDTH - 1; //x-coordinate in camera space
       double rayDirX = vars->map->dirX + vars->map->planeX * cameraX;
       double rayDirY = vars->map->dirY + vars->map->planeY * cameraX;
       //which box of the map we're in
@@ -144,8 +141,8 @@ void raycasting(t_vars *vars)
       //unlike (dirX, dirY) is not 1, however this does not matter, only the
       //ratio between deltaDistX and deltaDistY matters, due to the way the DDA
       //stepping further below works. So the values can be computed as below.
-      // Division through zero is prevented, even though technically that's not
-      // needed in C++ with IEEE 754 floating point values.
+      //Division through zero is prevented, even though technically that's not
+      //needed in C++ with IEEE 754 floating point values.
       double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
       double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
 
@@ -197,7 +194,6 @@ void raycasting(t_vars *vars)
         }
         //Check if ray has hit a wall
         if(vars->map->line[mapX][mapY] > '0' || vars->map->line[mapX][mapY] == ' ') hit = 1;
-        // if(worldMap[mapX][mapY] > 0) hit = 1;
       }
       //Calculate distance projected on camera direction. This is the shortest distance from the point where the wall is
       //hit to the camera plane. Euclidean to center camera point would give fisheye effect!
@@ -209,19 +205,16 @@ void raycasting(t_vars *vars)
       else          perpWallDist = (sideDistY - deltaDistY);
 
       //Calculate height of line to draw on screen
-      int lineHeight = (int)(h / perpWallDist);
-
-      int pitch = 100;
+      int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 
       //calculate lowest and highest pixel to fill in current stripe
 
-      int drawStart = -lineHeight / 2 + h / 2 + pitch;
+      int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
       if(drawStart < 0) drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2 + pitch;
-      if(drawEnd >= h) drawEnd = h - 1;
+      int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
+      if(drawEnd >= SCREEN_HEIGHT) drawEnd = SCREEN_HEIGHT - 1;
       //choose wall color
-      // int color;
-      int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+      int texNum = vars->map->line[mapX][mapY] - 48 - 1;//1 subtracted from it so that texture 0 can be used!
       //calculate value of wallX
       double wallX; //where exactly the wall was hit
       if(side == 0) wallX = vars->map->posY + perpWallDist * rayDirY;
@@ -237,67 +230,7 @@ void raycasting(t_vars *vars)
       // How much to increase the texture coordinate per screen pixel
       double step = 1.0 * texHeight / lineHeight;
       // Starting texture coordinate
-      double texPos = (drawStart - pitch - h / 2 + lineHeight / 2) * step;
-      // switch(vars->map->line[mapX][mapY])
-      // {
-      //   case '1':  color = rgbToHex(255, 0, 0);    break; //red
-      //   case '2':  color = rgbToHex(0, 255, 0);  break; //green
-      //   case '3':  color = rgbToHex(0, 0, 255);   break; //blue
-      //   case '4':  color = rgbToHex(0, 255, 0);  break; //white
-      //   default: color = rgbToHex(0, 0, 0); break; //yellow
-      // }
-
-      //give x and y sides different brightness
-      // if(side == 1) {color = color / 2;}
-
-      //draw the pixels of the stripe as a vertical line
-    //   verLine(x, drawStart, drawEnd, color);
-    // while ()
-    // int i = drawStart;
-    // while (i < drawEnd)
-    // {
-    //     mlx_pixel_put(vars->mlx, vars->win, x, i, color);
-    //     i ++;
-    // }
-    int i = drawStart;
-    int ceil = 0;
-    while (ceil < drawStart)
-    {
-      mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
-      ceil ++;
-    }
-    while (i < drawEnd)
-    {
-        int texY = (int)texPos & (texHeight - 1);
-        texPos += step;
-        int color;
-        color = rgbToHex(255, 0, 0);
-        switch(tmpimg[texNum][texHeight * texY + texX])
-        {
-          case 1:  color = rgbToHex(255, 0, 0);    break; //red
-          case 2:  color = rgbToHex(0, 255, 0);  break; //green
-          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-          case 4:  color = rgbToHex(0, 255, 0);  break; //white
-          default: color = rgbToHex(255, 0, 0); break; //yellow
-        }
-        mlx_pixel_put(vars->mlx, vars->win, x, i, color);
-        i ++;
-    }
-    int top = drawEnd;
-    while (top < screenHeight)
-    {
-      mlx_pixel_put(vars->mlx, vars->win, x, top, rgbToHex(0, 255, 0));
-      top ++;
-    }
-    // puts("------------------------");
-    // printf("posX:%0.2f posY: %0.2f\n", vars->map->posX, vars->map->posY);
-    // printf("dirX:%0.2f dirY: %0.2f\n", vars->map->dirX, vars->map->dirY);
-    // printf("planeX:%0.2f planeY: %0.2f\n", vars->map->planeX, vars->map->planeY);
-    // puts("------------------------");
+      double texPos = (drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * step;
+      draw(drawStart, drawEnd, vars, x, texX, texNum, step, texPos);
     }
 }
-// double posX = 22, posY = 12;  //x and y start position
-// double dirX = -1, dirY = 0; //initial direction vector
-// double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-// double time = 0; //time of current frame
-// double oldTime = 0; //time of previous frame

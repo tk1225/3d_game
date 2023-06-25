@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/23 10:56:45 by terabu           ###   ########.fr       */
+/*   Updated: 2023/06/25 19:27:31 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 # include "../lib/gnl/get_next_line.h"
 # include "../lib/libft/libft.h"
 
-#define mapWidth 24
-#define mapHeight 24
-#define screenWidth 640
-#define screenHeight 480
+#define MAP_WIDTH 24
+#define MAP_HEIGHT 24
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
 #define texWidth 32
 #define texHeight 32
+#define PITCH 100
 
 #define SUCCESS 1
 #define ERROR 0
