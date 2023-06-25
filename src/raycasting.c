@@ -98,14 +98,18 @@ void draw(int drawStart, int drawEnd, t_vars *vars, int x, int texX, int texNum,
         texPos += step;
         int color;
         color = rgbToHex(255, 0, 0);
-        switch(tmpimg[texNum][texHeight * texY + texX])
-        {
-          case 1:  color = rgbToHex(255, 0, 0);    break; //red
-          case 2:  color = rgbToHex(0, 255, 0);  break; //green
-          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-          case 4:  color = rgbToHex(0, 255, 0);  break; //white
-          default: color = rgbToHex(255, 0, 0); break; //yellow
-        }
+        (void)texY;
+        (void)texX;
+        (void)texNum;
+        // color = vars->img->n_img[texNum][texHeight * texY + texX];
+        // switch(tmpimg[texNum][texHeight * texY + texX])
+        // {
+        //   case 1:  color = rgbToHex(255, 0, 0);    break; //red
+        //   case 2:  color = rgbToHex(0, 255, 0);  break; //green
+        //   case 3:  color = rgbToHex(0, 0, 255);   break; //blue
+        //   case 4:  color = rgbToHex(0, 255, 0);  break; //white
+        //   default: color = rgbToHex(255, 0, 0); break; //yellow
+        // }
         mlx_pixel_put(vars->mlx, vars->win, x, drawStart, color);
         drawStart ++;
     }

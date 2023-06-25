@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
+/*   By: takuokam <takuokam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/25 19:27:31 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/06/25 20:06:10 by takuokam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@
 typedef struct s_vars t_vars;
 typedef struct s_data t_data;
 typedef struct s_map t_map;
+typedef struct s_img t_img;
 typedef struct s_file_data t_file_data;
 
 struct s_vars
@@ -81,6 +82,7 @@ struct s_vars
 	void	*mlx;
 	void	*win;
 	t_map	*map;
+	t_img	*img;
 };
 
 struct s_data
@@ -120,6 +122,10 @@ struct s_map
 	double planeY;
 	double time;
 	double oldTime;
+};
+struct s_img
+{
+	uint32_t **n_img;
 };
 
 void	raycasting(t_vars *vars);

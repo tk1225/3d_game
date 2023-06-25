@@ -6,7 +6,7 @@
 /*   By: takuokam <takuokam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/25 19:47:13 by takuokam         ###   ########.fr       */
+/*   Updated: 2023/06/25 20:14:39 by takuokam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,29 @@ t_map *map_init()
 	return (map);
 }
 
+t_img *img_read(t_vars *vars)
+{
+	t_img *img;
+
+	img = (t_img *)malloc(sizeof(t_img));
+	t_data *read_img = img_init(vars, "./ghost.xpm");
+	uint32_t **heap_img_data;
+	heap_img_data = (uint32_t **)malloc(sizeof(uint32_t *) * 32);
+	int i = 0;
+	int j = 0;
+	while (i < 32)
+	{
+		heap_img_data[i] = (uint32_t *)malloc(sizeof(uint32_t) * 32);
+		while (j < 32)
+		{
+			heap_img_data[i][j] = get_color(read_img, i, j);
+			j++;
+		}
+		i++;
+	}
+	return (img);
+}
+
 int main(int argc, char **argv)
 {
 	t_vars *vars;
@@ -81,22 +104,11 @@ int main(int argc, char **argv)
 	vars->map = map_init();
 	input_file(vars->map, argv[1]);
 
-	t_data *img = img_init(vars, "./ghost.xpm");
-	uint32_t img_data[32][32];
-	int i = 0;
-	int j = 0;
-	while (i < 32)
-	{
-		while (j < 32)
-		{
-			img_data[i][j] = get_color(img, i, j);
-			j++;
-		}
-		i++;
-	}
-
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
+
+	vars->img = img_read(vars);
+	
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
