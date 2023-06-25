@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
+/*   By: takuokam <takuokam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/25 19:29:22 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/06/25 19:47:13 by takuokam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+uint32_t	get_color(t_data *img, int x, int y)
+{
+	return (*(uint32_t*)(img->addr +
+		(y * img->line_length + x * (img->bits_per_pixel / 8))));
+}
+
+t_data	*img_init(t_vars *vars, char *relative_path)
+{
+	t_data	*read_img;
+	int		read_img_width;
+	int		read_img_height;
+
+	read_img = (t_data *)malloc(sizeof(t_data));
+	if (read_img == NULL)
+		exit(EXIT_FAILURE);
+	read_img->img = mlx_xpm_file_to_image(vars->mlx, \
+	relative_path, &read_img_width, &read_img_height);
+	if (read_img->img == NULL)
+		exit(EXIT_FAILURE);
+	read_img->addr = mlx_get_data_addr(read_img->img, &read_img->bits_per_pixel,
+		&read_img->line_length, &read_img->endian);
+	if (read_img->addr == NULL)
+		exit(EXIT_FAILURE);
+	return (read_img);
+}
 
 void	window_reflesh(t_vars *vars, int width, int height)
 {
@@ -54,6 +80,21 @@ int main(int argc, char **argv)
 	vars = (t_vars *)malloc(sizeof(t_vars));
 	vars->map = map_init();
 	input_file(vars->map, argv[1]);
+
+	t_data *img = img_init(vars, "./ghost.xpm");
+	uint32_t img_data[32][32];
+	int i = 0;
+	int j = 0;
+	while (i < 32)
+	{
+		while (j < 32)
+		{
+			img_data[i][j] = get_color(img, i, j);
+			j++;
+		}
+		i++;
+	}
+
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	raycasting(vars);
