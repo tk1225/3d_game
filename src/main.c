@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/25 19:29:22 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/06/29 09:19:49 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ t_map *map_init()
 	map->dirY = 0;
 	map->planeX = 0;
 	map->planeY = 0.66;
-	map->time = 0;
-	map->oldTime = 0;
 	return (map);
 }
 

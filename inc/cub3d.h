@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/25 19:27:31 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/06/29 09:28:00 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,13 @@ struct s_vars
 	void	*mlx;
 	void	*win;
 	t_map	*map;
+	int drawStart;
+	int drawEnd;
+	int texX;
+	int texY;
+	double step;
+	double texPos;
+	int texNum;
 };
 
 struct s_data
@@ -107,6 +114,7 @@ struct s_file_data
 	int  floor_rgb[3];
 	int  ceiling_rgb[3];
 };
+
 struct s_map
 {
 	t_file_data *file_data;
@@ -118,8 +126,6 @@ struct s_map
 	double dirY;
 	double planeX;
 	double planeY;
-	double time;
-	double oldTime;
 };
 
 void	raycasting(t_vars *vars);
