@@ -84,21 +84,21 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
-void draw(int drawStart, int drawEnd, t_vars *vars, int x, int texX, int texNum, double step, double texPos)
+void draw(t_vars *vars, int x)
 {
   int ceil = 0;
-    while (ceil < drawStart)
+    while (ceil < vars->drawStart)
     {
       mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
       ceil ++;
     }
-    while (drawStart < drawEnd)
+    while (vars->drawStart < vars->drawEnd)
     {
-        int texY = (int)texPos & (texHeight - 1);
-        texPos += step;
+        vars->texY = (int)vars->texPos & (texHeight - 1);
+        vars->texPos += vars->step;
         int color;
         color = rgbToHex(255, 0, 0);
-        switch(tmpimg[texNum][texHeight * texY + texX])
+        switch(tmpimg[vars->texNum][texHeight * vars->texY + vars->texX])
         {
           case 1:  color = rgbToHex(255, 0, 0);    break; //red
           case 2:  color = rgbToHex(0, 255, 0);  break; //green
@@ -106,13 +106,13 @@ void draw(int drawStart, int drawEnd, t_vars *vars, int x, int texX, int texNum,
           case 4:  color = rgbToHex(0, 255, 0);  break; //white
           default: color = rgbToHex(255, 0, 0); break; //yellow
         }
-        mlx_pixel_put(vars->mlx, vars->win, x, drawStart, color);
-        drawStart ++;
+        mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, color);
+        vars->drawStart ++;
     }
-    while (drawEnd < SCREEN_HEIGHT)
+    while (vars->drawEnd < SCREEN_HEIGHT)
     {
-      mlx_pixel_put(vars->mlx, vars->win, x, drawEnd, rgbToHex(0, 255, 0));
-      drawEnd ++;
+      mlx_pixel_put(vars->mlx, vars->win, x, vars->drawEnd, rgbToHex(0, 255, 0));
+      vars->drawEnd ++;
     }
 }
 
@@ -209,12 +209,12 @@ void raycasting(t_vars *vars)
 
       //calculate lowest and highest pixel to fill in current stripe
 
-      int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
-      if(drawStart < 0) drawStart = 0;
-      int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
-      if(drawEnd >= SCREEN_HEIGHT) drawEnd = SCREEN_HEIGHT - 1;
+      vars->drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
+      if(vars->drawStart < 0) vars->drawStart = 0;
+      vars->drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
+      if(vars->drawEnd >= SCREEN_HEIGHT) vars->drawEnd = SCREEN_HEIGHT - 1;
       //choose wall color
-      int texNum = vars->map->line[mapX][mapY] - 48 - 1;//1 subtracted from it so that texture 0 can be used!
+      vars->texNum = vars->map->line[mapX][mapY] - 48 - 1;//1 subtracted from it so that texture 0 can be used!
       //calculate value of wallX
       double wallX; //where exactly the wall was hit
       if(side == 0) wallX = vars->map->posY + perpWallDist * rayDirY;
@@ -222,15 +222,15 @@ void raycasting(t_vars *vars)
       wallX -= floor((wallX));
 
       //x coordinate on the texture
-      int texX = (int)(wallX * (double)(texWidth));
-      if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
-      if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+      vars->texX = (int)(wallX * (double)(texWidth));
+      if(side == 0 && rayDirX > 0) vars->texX = texWidth - vars->texX - 1;
+      if(side == 1 && rayDirY < 0) vars->texX = texWidth - vars->texX - 1;
 
       // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
       // How much to increase the texture coordinate per screen pixel
-      double step = 1.0 * texHeight / lineHeight;
+      vars->step = 1.0 * texHeight / lineHeight;
       // Starting texture coordinate
-      double texPos = (drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * step;
-      draw(drawStart, drawEnd, vars, x, texX, texNum, step, texPos);
+      vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * vars->step;
+      draw(vars, x);
     }
 }
