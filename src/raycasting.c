@@ -84,7 +84,7 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
-void draw(t_vars *vars, int x)
+void draw(t_vars *vars, int x, int direction)
 {
   int ceil = 0;
     while (ceil < vars->drawStart)
@@ -96,22 +96,14 @@ void draw(t_vars *vars, int x)
     {
         vars->texY = (int)vars->texPos & (TEXHEIGHT - 1);
         vars->texPos += vars->step;
-        // int color;
-        // color = rgbToHex(255, 0, 0);
-        // switch(vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32])
-        // {
-        //   case 1:  color = rgbToHex(255, 0, 0);    break; //red
-        //   case 2:  color = rgbToHex(0, 255, 0);  break; //green
-        //   case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-        //   case 4:  color = rgbToHex(0, 255, 0);  break; //white
-        //   default: color = rgbToHex(255, 0, 0); break; //yellow
-        // }
-        // mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, color);
-        // ft_putnbr_fd(vars->texNum, 1);
-        // ft_putendl_fd("*****", 1);
-        // ft_putnbr_fd((TEXHEIGHT * vars->texY + vars->texX), 1);
-        mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
-        // mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, color);
+        if (direction == NORTH)
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
+        else if (direction == SOUTH)
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, rgbToHex(0, 0, 0));
+        else if (direction == EAST)
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, rgbToHex(0, 0, 255));
+        else if (direction == WEST)
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, rgbToHex(255, 0, 0));
         vars->drawStart ++;
     }
     while (vars->drawEnd < SCREEN_HEIGHT)
@@ -182,6 +174,7 @@ void raycasting(t_vars *vars)
         sideDistY = (mapY + 1.0 - vars->map->posY) * deltaDistY;
       }
       //perform DDA
+      int direction = 0;
       while(hit == 0)
       {
         //jump to next map square, either in x-direction, or in y-direction
@@ -190,12 +183,20 @@ void raycasting(t_vars *vars)
           sideDistX += deltaDistX;
           mapX += stepX;
           side = 0;
+          if (stepX > 0)
+            direction = NORTH;
+          else
+            direction = SOUTH;
         }
         else
         {
           sideDistY += deltaDistY;
           mapY += stepY;
           side = 1;
+          if (stepY > 0)
+            direction = EAST;
+          else
+            direction = WEST;
         }
         //Check if ray has hit a wall
         if(vars->map->line[mapX][mapY] > '0' || vars->map->line[mapX][mapY] == ' ') hit = 1;
@@ -236,6 +237,6 @@ void raycasting(t_vars *vars)
       vars->step = 1.0 * TEXHEIGHT / lineHeight;
       // Starting texture coordinate
       vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * vars->step;
-      draw(vars, x);
+      draw(vars, x, direction);
     }
 }
