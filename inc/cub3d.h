@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/30 08:41:23 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/01 13:26:31 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ struct s_vars
 	double step;
 	double texPos;
 	int texNum;
+	int tmpimg[64][64];
 };
 
 struct s_data
@@ -128,15 +129,16 @@ struct s_map
 	double planeY;
 };
 
-void	raycasting(t_vars *vars);
-int		key_handle(int keycode, t_vars *vars);
-int		input_file(t_map *map, char *file_path);
-void	setting_element(t_file_data *file_data);
-void	set_map(t_map *map, t_file_data *file_data);
-int		open_file(char *filepath);
-void	exit_error(const char *message);
-void	check_pre(int argc, char **argv);
-void	check_map(t_map *map);
-void 	check_wall(t_map *map);
+void		raycasting(t_vars *vars);
+int			key_handle(int keycode, t_vars *vars);
+int			input_file(t_map *map, char *file_path);
+void		setting_element(t_file_data *file_data);
+void		set_map(t_map *map, t_file_data *file_data);
+int			open_file(char *filepath);
+void		exit_error(const char *message);
+void		check_pre(int argc, char **argv);
+void		check_map(t_map *map);
+void 		check_wall(t_map *map);
+uint32_t	get_color(t_data *img, int x, int y);
 
 #endif
