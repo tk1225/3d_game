@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/01 15:26:45 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/01 17:21:00 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@
 
 # define MAX_FILE_COL 100
 # define MAX_FILE_ROW 100
+
+# define NORTH	0
+# define SOUTH	1
+# define EAST	2
+# define WEST	3
 
 // ----------------------------------------
 // ERROR
