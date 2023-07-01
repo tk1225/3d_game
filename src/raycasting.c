@@ -94,11 +94,11 @@ void draw(t_vars *vars, int x)
     }
     while (vars->drawStart < vars->drawEnd)
     {
-        vars->texY = (int)vars->texPos & (texHeight - 1);
+        vars->texY = (int)vars->texPos & (TEXHEIGHT - 1);
         vars->texPos += vars->step;
         int color;
         color = rgbToHex(255, 0, 0);
-        switch(tmpimg[vars->texNum][texHeight * vars->texY + vars->texX])
+        switch(tmpimg[vars->texNum][TEXHEIGHT * vars->texY + vars->texX])
         {
           case 1:  color = rgbToHex(255, 0, 0);    break; //red
           case 2:  color = rgbToHex(0, 255, 0);  break; //green
@@ -128,10 +128,6 @@ void raycasting(t_vars *vars)
       int mapX = vars->map->posX;
       int mapY = vars->map->posY;
 
-      //length of ray from current position to next x or y-side
-      double sideDistX;
-      double sideDistY;
-
       //length of ray from one x or y-side to next x or y-side
       //these are derived as:
       //deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
@@ -155,6 +151,10 @@ void raycasting(t_vars *vars)
       int hit = 0; //was there a wall hit?
       int side; //was a NS or a EW wall hit?
       //calculate step and initial sideDist
+
+      //length of ray from current position to next x or y-side
+      double sideDistX;
+      double sideDistY;
       if(rayDirX < 0)
       {
         stepX = -1;
@@ -222,13 +222,13 @@ void raycasting(t_vars *vars)
       wallX -= floor((wallX));
 
       //x coordinate on the texture
-      vars->texX = (int)(wallX * (double)(texWidth));
-      if(side == 0 && rayDirX > 0) vars->texX = texWidth - vars->texX - 1;
-      if(side == 1 && rayDirY < 0) vars->texX = texWidth - vars->texX - 1;
+      vars->texX = (int)(wallX * (double)(TEXWIDTH));
+      if(side == 0 && rayDirX > 0) vars->texX = TEXWIDTH - vars->texX - 1;
+      if(side == 1 && rayDirY < 0) vars->texX = TEXWIDTH - vars->texX - 1;
 
       // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
       // How much to increase the texture coordinate per screen pixel
-      vars->step = 1.0 * texHeight / lineHeight;
+      vars->step = 1.0 * TEXHEIGHT / lineHeight;
       // Starting texture coordinate
       vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * vars->step;
       draw(vars, x);

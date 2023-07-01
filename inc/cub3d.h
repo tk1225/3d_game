@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/29 09:28:00 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/06/30 08:41:23 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 #define MAP_HEIGHT 24
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-#define texWidth 32
-#define texHeight 32
+#define TEXWIDTH 32
+#define TEXHEIGHT 32
 #define PITCH 100
 
 #define SUCCESS 1
