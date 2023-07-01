@@ -6,11 +6,31 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/29 09:19:49 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/01 15:52:32 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+t_data	*img_init(t_vars *vars, char *relative_path)
+{
+	t_data	*read_img;
+	int		read_img_width;
+	int		read_img_height;
+
+	read_img = (t_data *)malloc(sizeof(t_data));
+	if (read_img == NULL)
+		exit(EXIT_FAILURE);
+	read_img->img = mlx_xpm_file_to_image(vars->mlx, \
+	relative_path, &read_img_width, &read_img_height);
+	if (read_img->img == NULL)
+		exit(EXIT_FAILURE);
+	read_img->addr = mlx_get_data_addr(read_img->img, &read_img->bits_per_pixel,
+		&read_img->line_length, &read_img->endian);
+	if (read_img->addr == NULL)
+		exit(EXIT_FAILURE);
+	return (read_img);
+}
 
 void	window_reflesh(t_vars *vars, int width, int height)
 {
@@ -54,6 +74,27 @@ int main(int argc, char **argv)
 	input_file(vars->map, argv[1]);
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
+
+	vars->tmpimg = (uint32_t **)malloc(32 * sizeof(uint32_t *));
+	int i = 0;
+	while (i < 32)
+	{
+		vars->tmpimg[i] = (uint32_t *)malloc(32 * sizeof(uint32_t));
+		i++;
+	}
+	t_data *img = img_init(vars, "./ghost.xpm");
+	int j = 0;
+	int k = 0;
+	while (j < 32)
+	{
+		while (k < 32)
+		{
+			vars->tmpimg[j][k] = get_color(img, j, k);
+			k++;
+		}
+		k = 0;
+		j++;
+	}
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
