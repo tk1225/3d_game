@@ -61,13 +61,13 @@ void draw(t_vars *vars, int x, int direction)
         vars->texY = (int)vars->texPos & (TEXHEIGHT - 1);
         vars->texPos += vars->step;
         if (direction == NORTH)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_north[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
         else if (direction == SOUTH)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, rgbToHex(0, 0, 0));
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_south[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
         else if (direction == EAST)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, rgbToHex(0, 0, 255));
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_east[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
         else if (direction == WEST)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, rgbToHex(255, 0, 0));
+          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_west[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
         vars->drawStart ++;
     }
     while (vars->drawEnd < SCREEN_HEIGHT)

@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/01 17:21:00 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/01 18:17:19 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ struct s_vars
 	double step;
 	double texPos;
 	int texNum;
-	uint32_t **tmpimg;
+	uint32_t **img_north;
+	uint32_t **img_south;
+	uint32_t **img_east;
+	uint32_t **img_west;
 };
 
 struct s_data
@@ -145,5 +148,8 @@ void		check_pre(int argc, char **argv);
 void		check_map(t_map *map);
 void 		check_wall(t_map *map);
 uint32_t	get_color(t_data *img, int x, int y);
+t_data		*img_init(t_vars *vars, char *relative_path);
+// void vars_img_init(t_vars *vars, char *path_n, char *path_s, char *path_w, char *path_e);
+void vars_img_init(t_vars *vars, char *path, u_int32_t **img);
 
 #endif
