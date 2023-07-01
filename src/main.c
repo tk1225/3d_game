@@ -6,11 +6,17 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/06/29 09:19:49 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/01 12:52:03 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+uint32_t	get_color(t_data *img, int x, int y)
+{
+	return (*(uint32_t*)(img->addr +
+		(y * img->line_length + x * (img->bits_per_pixel / 8))));
+}
 
 void	window_reflesh(t_vars *vars, int width, int height)
 {
