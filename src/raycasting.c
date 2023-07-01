@@ -64,16 +64,16 @@ int	key_handle(int keycode, t_vars *vars)
     }
 	else if (keycode == DOWN_KEY || keycode == DOWN_KEY_M1)
 	{
-    if(vars->map->line[(int)(vars->map->posX + vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
+    if(vars->map->line[(int)(vars->map->posX - vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
       vars->map->posX -= vars->map->dirX * MOVE_SPEED;
-    if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + vars->map->dirY * MOVE_SPEED)] == '0')
+    if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY - vars->map->dirY * MOVE_SPEED)] == '0')
       vars->map->posY -= vars->map->dirY * MOVE_SPEED;
     }
 	else if (keycode == UP_KEY || keycode == UP_KEY_M1)
 	{
-        if(vars->map->line[(int)(vars->map->posX - vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
+        if(vars->map->line[(int)(vars->map->posX + vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
             vars->map->posX += vars->map->dirX * MOVE_SPEED;
-        if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY - vars->map->dirY * MOVE_SPEED)] == '0')
+        if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + vars->map->dirY * MOVE_SPEED)] == '0')
             vars->map->posY += vars->map->dirY * MOVE_SPEED;
   }
   else if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
