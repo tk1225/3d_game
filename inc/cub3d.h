@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/01 13:26:31 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/01 14:57:12 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ struct s_vars
 	double step;
 	double texPos;
 	int texNum;
-	int tmpimg[64][64];
+	int **tmpimg;
 };
 
 struct s_data
