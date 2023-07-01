@@ -96,22 +96,22 @@ void draw(t_vars *vars, int x)
     {
         vars->texY = (int)vars->texPos & (TEXHEIGHT - 1);
         vars->texPos += vars->step;
-        int color;
-        color = rgbToHex(255, 0, 0);
-        switch(vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32])
-        {
-          case 1:  color = rgbToHex(255, 0, 0);    break; //red
-          case 2:  color = rgbToHex(0, 255, 0);  break; //green
-          case 3:  color = rgbToHex(0, 0, 255);   break; //blue
-          case 4:  color = rgbToHex(0, 255, 0);  break; //white
-          default: color = rgbToHex(255, 0, 0); break; //yellow
-        }
+        // int color;
+        // color = rgbToHex(255, 0, 0);
+        // switch(vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32])
+        // {
+        //   case 1:  color = rgbToHex(255, 0, 0);    break; //red
+        //   case 2:  color = rgbToHex(0, 255, 0);  break; //green
+        //   case 3:  color = rgbToHex(0, 0, 255);   break; //blue
+        //   case 4:  color = rgbToHex(0, 255, 0);  break; //white
+        //   default: color = rgbToHex(255, 0, 0); break; //yellow
+        // }
         // mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, color);
         // ft_putnbr_fd(vars->texNum, 1);
         // ft_putendl_fd("*****", 1);
         // ft_putnbr_fd((TEXHEIGHT * vars->texY + vars->texX), 1);
-        // mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
-        mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, color);
+        mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->tmpimg[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
+        // mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, color);
         vars->drawStart ++;
     }
     while (vars->drawEnd < SCREEN_HEIGHT)
