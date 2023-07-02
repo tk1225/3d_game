@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 10:35:28 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 13:03:02 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	window_reflesh(t_vars *vars, int width, int height)
 
 int	render_next_frame(t_vars *vars)
 {
-  window_reflesh(vars, SCREEN_WIDTH, SCREEN_HEIGHT);
-  raycasting(vars);
-  return (SUCCESS);
+	window_reflesh(vars, SCREEN_WIDTH, SCREEN_HEIGHT);
+	raycasting(vars);
+	return (SUCCESS);
 }
 
-t_map *map_init()
+t_map	*map_init(void)
 {
-	t_map *map;
+	t_map	*map;
 
 	map = (t_map *)malloc(sizeof(t_map));
 	map->posX = 22;
@@ -44,9 +44,9 @@ t_map *map_init()
 	return (map);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_vars *vars;
+	t_vars	*vars;
 
 	check_pre(argc, argv);
 	vars = (t_vars *)malloc(sizeof(t_vars));
@@ -58,18 +58,14 @@ int main(int argc, char **argv)
 	vars->img_south = (uint32_t **)malloc(32 * sizeof(uint32_t *));
 	vars->img_west = (uint32_t **)malloc(32 * sizeof(uint32_t *));
 	vars->img_east = (uint32_t **)malloc(32 * sizeof(uint32_t *));
-
 	vars_img_init(vars, "ghost_n.xpm", vars->img_north);
 	vars_img_init(vars, "ghost_s.xpm", vars->img_south);
 	vars_img_init(vars, "ghost_w.xpm", vars->img_west);
 	vars_img_init(vars, "ghost_e.xpm", vars->img_east);
-
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
-	// mlx_hook(vars->win, 17, 0L, x_click_handle, vars);
 	mlx_loop(vars->mlx);
-
 }
 
 __attribute((destructor))
