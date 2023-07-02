@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
+/*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/01 18:17:19 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/02 12:24:40 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,11 @@ void		exit_error(const char *message);
 void		check_pre(int argc, char **argv);
 void		check_map(t_map *map);
 void 		check_wall(t_map *map);
+void 		free_array(char **array);
+void		free_line(char **line, int row);
+
 uint32_t	get_color(t_data *img, int x, int y);
 t_data		*img_init(t_vars *vars, char *relative_path);
-// void vars_img_init(t_vars *vars, char *path_n, char *path_s, char *path_w, char *path_e);
 void vars_img_init(t_vars *vars, char *path, u_int32_t **img);
 
 #endif

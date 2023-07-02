@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   img_color_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
+/*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 12:52:57 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/01 22:42:15 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/02 10:50:13 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void vars_img_init(t_vars *vars, char *path, u_int32_t **img)
 	// vars->img_south = (uint32_t **)malloc(32 * sizeof(uint32_t *));
 	// vars->img_east = (uint32_t **)malloc(32 * sizeof(uint32_t *));
 	// vars->img_west = (uint32_t **)malloc(32 * sizeof(uint32_t *));
-	
+
 	while (i < 32)
 	{
 		img[i] = (uint32_t *)malloc(32 * sizeof(uint32_t));
@@ -77,6 +77,7 @@ void vars_img_init(t_vars *vars, char *path, u_int32_t **img)
 	// t_data *img_e = img_init(vars, path_e);
 
 	convert_img(img, img_new);
+	free(img_new);
 	// convert_img(vars->img_east, img_e);
 	// convert_img(vars->img_west, img_w);
 	// convert_img(vars->img_south, img_s);
