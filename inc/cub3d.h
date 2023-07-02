@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 12:24:40 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 12:47:45 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <mlx.h>
 # include <stdlib.h>
 # include <math.h>
+# include <stdbool.h>
 # include "../lib/gnl/get_next_line.h"
 # include "../lib/libft/libft.h"
 
