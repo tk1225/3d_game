@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
+/*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/01 22:44:20 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/02 10:35:28 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,18 @@ int main(int argc, char **argv)
 	vars_img_init(vars, "ghost_s.xpm", vars->img_south);
 	vars_img_init(vars, "ghost_w.xpm", vars->img_west);
 	vars_img_init(vars, "ghost_e.xpm", vars->img_east);
-	
+
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
 	// mlx_hook(vars->win, 17, 0L, x_click_handle, vars);
 	mlx_loop(vars->mlx);
+
+}
+
+__attribute((destructor))
+static void destructor() {
+    system("leaks -q cub3d");
 }
 
 // static int	file_open(char *filename)

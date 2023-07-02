@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:17:57 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/21 13:29:09 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 12:08:55 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,45 +84,33 @@ int	set_map_start(t_file_data *file_data)
 int input_file(t_map *map, char *file_path)
 {
 	int		i;
-	t_file_data *file_data;
 
-	file_data = malloc(sizeof(t_file_data));
-	file_data->file_path = file_path;
-	get_ncount(file_data);
-	if (!(file_data->row))
+	map->file_data = malloc(sizeof(t_file_data));
+	map->file_data->file_path = file_path;
+	get_ncount(map->file_data);
+	if (!(map->file_data->row))
 		exit(EXIT_FAILURE);
-		// exit_error(ERROR_EMPTY);
-	file_data->fd = open_file(file_data->file_path);
-	file_data->line = malloc(sizeof(char *) * file_data->row);
-	if (file_data->line == NULL)
+	map->file_data->fd = open_file(map->file_data->file_path);
+	map->file_data->line = malloc(sizeof(char *) * map->file_data->row);
+	if (map->file_data->line == NULL)
 		exit_error(ERROR_MALLOC);
 	i = 0;
-	while (i < file_data->row)
+	while (i < map->file_data->row)
 	{
-		file_data->line[i] = get_next_line(file_data->fd);
-		if (file_data->line[i] == NULL)
+		map->file_data->line[i] = get_next_line(map->file_data->fd);
+		if (map->file_data->line[i] == NULL)
 			exit(EXIT_FAILURE);
-			// error_malloc_array(file_data->line, i);
 		i++;
 	}
-	file_data->row_map_start = set_map_start(file_data);
-	if (file_data->row - file_data->row_map_start > MAX_MAP_ROW)
+	map->file_data->row_map_start = set_map_start(map->file_data);
+	if (map->file_data->row - map->file_data->row_map_start > MAX_MAP_ROW)
 		exit_error(ERROR_BIG_MAP);
-	if (file_data->row - file_data->row_map_start < 3)
+	if (map->file_data->row - map->file_data->row_map_start < 3)
 		exit_error(ERROR_SMALL_MAP);
-	map->line = malloc(sizeof(char *) * file_data->row - file_data->row_map_start);
-	setting_element(file_data);
-	set_map(map, file_data);
-	// printf("texture_no:%s\n", file_data->texture_no);
-	// printf("texture_so:%s\n", file_data->texture_so);
-	// printf("texture_we:%s\n", file_data->texture_we);
-	// printf("texture_ea:%s\n", file_data->texture_ea);
-	// printf("floor_rgb[0]:%d\n", file_data->floor_rgb[0]);
-	// printf("floor_rgb[1]:%d\n", file_data->floor_rgb[1]);
-	// printf("floor_rgb[2]:%d\n", file_data->floor_rgb[2]);
-	// printf("ceiling_rgb[0]:%d\n", file_data->ceiling_rgb[0]);
-	// printf("ceiling_rgb[1]:%d\n", file_data->ceiling_rgb[1]);
-	// printf("ceiling_rgb[2]:%d\n", file_data->ceiling_rgb[2]);
+	map->line = malloc(sizeof(char *) * map->file_data->row - map->file_data->row_map_start);
+	setting_element(map->file_data);
+	set_map(map, map->file_data);
+	free_line(map->file_data->line, map->file_data->row);
 	return (1);
 }
 

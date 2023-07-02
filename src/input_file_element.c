@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:25:07 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/21 13:29:32 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 11:20:48 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char *set_texture(char *line)
 {
 	int i;
+	char *path_texture;
 	char **set_data;
 
 	set_data = ft_split(line, ' ');
@@ -24,7 +25,11 @@ char *set_texture(char *line)
 	while (set_data[i])
 	{
 		if (i == 1)
-			return (set_data[i]);
+		{
+			path_texture = set_data[i];
+			free_array(set_data);
+			return (path_texture);
+		}
 		i++;
 	}
 	// free_aray;
@@ -44,16 +49,19 @@ void set_rgb(int *file_rgb, char *line)
 	if (!set_data[1])
 		exit_error(ERROR_FORMAT);
 	set_rgb = ft_split(set_data[1], ',');
+	free_array(set_data);
 	if (!set_rgb)
 		exit_error(ERROR_MALLOC);
 	i = 0;
 	while(set_rgb[i])
 	{
-		file_rgb[i] = ft_atoi(ft_strdup(set_rgb[i]));
+		// file_rgb[i] = ft_atoi(ft_strdup(set_rgb[i]));
+		file_rgb[i] = ft_atoi(set_rgb[i]);
 		if (file_rgb[i] < 0 || 255 < file_rgb[i])
 			exit_error(ERROR_MALLOC);
 		i++;
 	}
+	free_array(set_rgb);
 }
 
 char *get_element_line(t_file_data *file_data, char *word)

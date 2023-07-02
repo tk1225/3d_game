@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+         #
+#    By: terabu <terabu@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/31 18:31:13 by takuokam          #+#    #+#              #
-#    Updated: 2023/07/01 17:57:25 by takumasaoka      ###   ########.fr        #
+#    Updated: 2023/07/02 10:36:31 by terabu           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS_NAME	:= main.c \
 			   check.c \
 			   input_file_element.c \
 			   check_wall.c \
-			   img_color_utils.c
+			   img_color_utils.c \
+			   finalized.c
 OBJS_NAME	:= $(SRCS_NAME:.c=.o)
 
 
