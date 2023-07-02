@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:45:30 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/02 13:01:22 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 13:31:40 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	check_pre(int argc, char **argv)
 
 	if (argc != 2)
 		exit_error(ERROR_ARGS);
-	fd = open_file(argv[1]);
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		exit_error(ERROR_FILE);
 	close(fd);
 	p = ft_strrchr(argv[1], '.');
 	if (!p || ft_strncmp(".cub", p, 5))
