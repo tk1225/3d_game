@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:45:30 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/12 15:20:14 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 13:31:40 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,38 @@ void	check_pre(int argc, char **argv)
 
 	if (argc != 2)
 		exit_error(ERROR_ARGS);
-	fd = open_file(argv[1]);
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		exit_error(ERROR_FILE);
 	close(fd);
 	p = ft_strrchr(argv[1], '.');
 	if (!p || ft_strncmp(".cub", p, 5))
 		exit_error(ERROR_CUB);
 }
 
+bool	check_start_point(char p)
+{
+	if (p == 'N' || p == 'E' || p == 'W' || p == 'S')
+		return (true);
+	else
+		return (false);
+}
+
+bool	check_must_point(char p)
+{
+	if (!(p == 'N' || p == 'E' || p == 'W' || p == 'S'
+			|| p == '0' || p == '1' || p == ' '))
+		return (true);
+	else
+		return (false);
+}
+
 void	check_map(t_map *map)
 {
-	int x;
-	int y;
-	int map_row;
-	int p_cnt;
+	int	x;
+	int	y;
+	int	map_row;
+	int	p_cnt;
 
 	map_row = map->row;
 	y = 0;
@@ -41,16 +60,11 @@ void	check_map(t_map *map)
 		x = 0;
 		while (map->line[y][x] != '\n')
 		{
-			if (map->line[y][x] == 'N' || map->line[y][x] == 'E' ||
-				map->line[y][x] == 'W' || map->line[y][x] == 'S')
+			if (check_start_point(map->line[y][x]))
 				p_cnt++;
-			if (!(map->line[y][x] == 'N' || map->line[y][x] == 'E' ||
-				map->line[y][x] == 'W' || map->line[y][x] == 'S' ||
-				map->line[y][x] == '0' || map->line[y][x] == '1' ||
-				map->line[y][x] == ' '))
+			if (check_must_point(map->line[y][x]))
 				exit_error(ERROR_MAP_VALUE);
-			x++;
-			if (x > MAX_MAP_COL)
+			if (++x > MAX_MAP_COL)
 				exit_error(ERROR_BIG_MAP);
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 12:24:40 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 13:32:22 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <mlx.h>
 # include <stdlib.h>
 # include <math.h>
+# include <stdbool.h>
 # include "../lib/gnl/get_next_line.h"
 # include "../lib/libft/libft.h"
 
@@ -142,11 +143,12 @@ int			key_handle(int keycode, t_vars *vars);
 int			input_file(t_map *map, char *file_path);
 void		setting_element(t_file_data *file_data);
 void		set_map(t_map *map, t_file_data *file_data);
-int			open_file(char *filepath);
 void		exit_error(const char *message);
 void		check_pre(int argc, char **argv);
 void		check_map(t_map *map);
 void 		check_wall(t_map *map);
+bool		check_start_point(char p);
+
 void 		free_array(char **array);
 void		free_line(char **line, int row);
 
