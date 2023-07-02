@@ -6,27 +6,32 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:04:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/06/22 15:53:08 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 13:13:32 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void do_right_direction(t_map *map, int r_time)
+void	do_right_direction(t_map *map, int r_time)
 {
+	double	old_dirx;
+	double	old_planex;
+
 	while (r_time)
 	{
-		double oldDirX = map->dirX;
+		old_dirx = map->dirX;
 		map->dirX = map->dirX * cos(-ROT_SPEED) - map->dirY * sin(-ROT_SPEED);
-		map->dirY = oldDirX * sin(-ROT_SPEED) + map->dirY * cos(-ROT_SPEED);
-		double oldPlaneX = map->planeX;
-		map->planeX = map->planeX * cos(-ROT_SPEED) - map->planeY * sin(-ROT_SPEED);
-		map->planeY = oldPlaneX * sin(-ROT_SPEED) + map->planeY * cos(-ROT_SPEED);
+		map->dirY = old_dirx * sin(-ROT_SPEED) + map->dirY * cos(-ROT_SPEED);
+		old_planex = map->planeX;
+		map->planeX = map->planeX * cos(-ROT_SPEED)
+			- map->planeY * sin(-ROT_SPEED);
+		map->planeY = old_planex * sin(-ROT_SPEED)
+			+ map->planeY * cos(-ROT_SPEED);
 		r_time--;
 	}
 }
 
-void init_direction(t_map *map, char d)
+void	init_direction(t_map *map, char d)
 {
 	if (d == 'N')
 		;
@@ -38,11 +43,11 @@ void init_direction(t_map *map, char d)
 		do_right_direction(map, 9);
 }
 
-void init_position(t_map *map)
+void	init_position(t_map *map)
 {
-	int x;
-	int y;
-	int map_row;
+	int	x;
+	int	y;
+	int	map_row;
 
 	map_row = map->row;
 	y = 0;
@@ -51,7 +56,7 @@ void init_position(t_map *map)
 		x = 0;
 		while (map->line[y][x] != '\n')
 		{
-			if (map->line[y][x] == 'N' || map->line[y][x] == 'E' || map->line[y][x] == 'W' || map->line[y][x] == 'S')
+			if (check_start_point(map->line[y][x]))
 			{
 				init_direction(map, map->line[y][x]);
 				map->posX = y;
@@ -67,17 +72,16 @@ void init_position(t_map *map)
 	}
 }
 
-void set_map(t_map *map, t_file_data *file_data)
+void	set_map(t_map *map, t_file_data *file_data)
 {
-	int file_i;
-	int map_i;
-	int map_row;
+	int	file_i;
+	int	map_i;
+	int	map_row;
 
 	file_i = file_data->row_map_start + 1;
 	map_i = 0;
 	map->row = file_data->row - file_data->row_map_start;
 	map_row = map->row;
-
 	while (map_row)
 	{
 		map->line[map_i] = ft_strdup(file_data->line[file_i - 1]);

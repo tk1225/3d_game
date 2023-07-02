@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 12:47:45 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 13:12:13 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ void		exit_error(const char *message);
 void		check_pre(int argc, char **argv);
 void		check_map(t_map *map);
 void 		check_wall(t_map *map);
+bool		check_start_point(char p);
+
 void 		free_array(char **array);
 void		free_line(char **line, int row);
 
