@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:56:05 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/02 12:33:47 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/02 13:05:09 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static size_t	cnt_array(char **array)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (array[i])
 		i++;
-	return i;
+	return (i);
 }
 
 void	free_array(char **array)
 {
-	size_t cnt;
-	size_t i;
+	size_t	cnt;
+	size_t	i;
 
 	cnt = cnt_array(array);
 	i = 0;
@@ -39,7 +39,7 @@ void	free_array(char **array)
 
 void	free_line(char **line, int row)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < row)
@@ -49,4 +49,3 @@ void	free_line(char **line, int row)
 	}
 	free(line);
 }
-
