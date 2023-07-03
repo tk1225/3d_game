@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:25:07 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/02 13:06:23 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/03 11:24:56 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*set_texture(char *line)
 	{
 		if (i == 1)
 		{
-			path_texture = set_data[i];
+			path_texture = ft_strtrim(set_data[i], "\n");
 			free_array(set_data);
 			return (path_texture);
 		}

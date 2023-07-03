@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 13:03:02 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/03 11:27:01 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int	main(int argc, char **argv)
 	vars->img_south = (uint32_t **)malloc(32 * sizeof(uint32_t *));
 	vars->img_west = (uint32_t **)malloc(32 * sizeof(uint32_t *));
 	vars->img_east = (uint32_t **)malloc(32 * sizeof(uint32_t *));
-	vars_img_init(vars, "ghost_n.xpm", vars->img_north);
-	vars_img_init(vars, "ghost_s.xpm", vars->img_south);
-	vars_img_init(vars, "ghost_w.xpm", vars->img_west);
-	vars_img_init(vars, "ghost_e.xpm", vars->img_east);
+	vars_img_init(vars, vars->map->file_data->texture_no, vars->img_north);
+	vars_img_init(vars, vars->map->file_data->texture_so, vars->img_south);
+	vars_img_init(vars, vars->map->file_data->texture_we, vars->img_west);
+	vars_img_init(vars, vars->map->file_data->texture_ea, vars->img_east);
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);

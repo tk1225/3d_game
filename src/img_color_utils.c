@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 12:52:57 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 10:50:13 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/03 11:25:49 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_data	*img_init(t_vars *vars, char *relative_path)
 	read_img->img = mlx_xpm_file_to_image(vars->mlx, \
 	relative_path, &read_img_width, &read_img_height);
 	if (read_img->img == NULL)
-		exit(EXIT_FAILURE);
+		exit_error(ERROR_FILE);
 	read_img->addr = mlx_get_data_addr(read_img->img, &read_img->bits_per_pixel,
 		&read_img->line_length, &read_img->endian);
 	if (read_img->addr == NULL)
