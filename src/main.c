@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 13:03:02 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/03 11:52:10 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,13 @@ int	render_next_frame(t_vars *vars)
 	return (SUCCESS);
 }
 
-t_map	*map_init(void)
-{
-	t_map	*map;
-
-	map = (t_map *)malloc(sizeof(t_map));
-	map->posX = 22;
-	map->posY = 12;
-	map->dirX = -1;
-	map->dirY = 0;
-	map->planeX = 0;
-	map->planeY = 0.66;
-	return (map);
-}
-
 int	main(int argc, char **argv)
 {
 	t_vars	*vars;
 
 	check_pre(argc, argv);
 	vars = (t_vars *)malloc(sizeof(t_vars));
-	vars->map = map_init();
-	input_file(vars->map, argv[1]);
-	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
-	vars->img_north = (uint32_t **)malloc(32 * sizeof(uint32_t *));
-	vars->img_south = (uint32_t **)malloc(32 * sizeof(uint32_t *));
-	vars->img_west = (uint32_t **)malloc(32 * sizeof(uint32_t *));
-	vars->img_east = (uint32_t **)malloc(32 * sizeof(uint32_t *));
-	vars_img_init(vars, "ghost_n.xpm", vars->img_north);
-	vars_img_init(vars, "ghost_s.xpm", vars->img_south);
-	vars_img_init(vars, "ghost_w.xpm", vars->img_west);
-	vars_img_init(vars, "ghost_e.xpm", vars->img_east);
+	initialized(vars, argv[1]);
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);

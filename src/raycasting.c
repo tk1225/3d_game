@@ -53,7 +53,10 @@ void draw(t_vars *vars, int x, int direction)
   int ceil = 0;
     while (ceil < vars->drawStart)
     {
-      mlx_pixel_put(vars->mlx, vars->win, x, ceil, rgbToHex(0, 255, 0));
+      mlx_pixel_put(vars->mlx, vars->win, x, ceil,
+      rgbToHex(vars->map->file_data->ceiling_rgb[0],
+      vars->map->file_data->ceiling_rgb[1],
+      vars->map->file_data->ceiling_rgb[2]));
       ceil ++;
     }
     while (vars->drawStart < vars->drawEnd)
@@ -72,7 +75,10 @@ void draw(t_vars *vars, int x, int direction)
     }
     while (vars->drawEnd < SCREEN_HEIGHT)
     {
-      mlx_pixel_put(vars->mlx, vars->win, x, vars->drawEnd, rgbToHex(0, 255, 0));
+      mlx_pixel_put(vars->mlx, vars->win, x, vars->drawEnd,
+      rgbToHex(vars->map->file_data->floor_rgb[0],
+      vars->map->file_data->floor_rgb[1],
+      vars->map->file_data->floor_rgb[2]));
       vars->drawEnd ++;
     }
 }

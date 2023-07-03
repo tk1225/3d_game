@@ -6,7 +6,7 @@
 #    By: terabu <terabu@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/31 18:31:13 by takuokam          #+#    #+#              #
-#    Updated: 2023/07/02 10:36:31 by terabu           ###   ########.fr        #
+#    Updated: 2023/07/03 11:43:10 by terabu           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS_NAME	:= main.c \
 			   input_file_element.c \
 			   check_wall.c \
 			   img_color_utils.c \
+			   initialized.c \
 			   finalized.c
 OBJS_NAME	:= $(SRCS_NAME:.c=.o)
 
