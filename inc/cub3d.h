@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/02 13:32:22 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/03 11:51:06 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ struct s_map
 	double planeY;
 };
 
+void		initialized(t_vars *vars, char *map_path);
 void		raycasting(t_vars *vars);
 int			key_handle(int keycode, t_vars *vars);
 int			input_file(t_map *map, char *file_path);
