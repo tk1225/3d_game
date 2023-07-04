@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/04 20:40:19 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/05 01:20:16 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ struct s_vars
 	double ray_dir_y;
 	int map_x;
 	int map_y;
+	int direction;
+	double side_dist_x;
+	double side_dist_y;
 	uint32_t **img_north;
 	uint32_t **img_south;
 	uint32_t **img_east;
