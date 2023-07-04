@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/04 20:41:55 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/04 20:50:00 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,29 @@ int	rgb_to_hex(int red, int green, int blue)
 	return (hex_code);
 }
 
-void rotate(t_vars *vars, double rot_speed)
+void	rotate(t_vars *vars, double rot_speed)
 {
-	double oldDirX = vars->map->dirX;
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = vars->map->dirX;
+	old_plane_x = vars->map->planeX;
 	vars->map->dirX = vars->map->dirX * \
 	cos(rot_speed) - vars->map->dirY * sin(rot_speed);
-	vars->map->dirY = oldDirX * sin(rot_speed) + vars->map->dirY * cos(rot_speed);
-	double oldPlaneX = vars->map->planeX;
+	vars->map->dirY = old_dir_x * \
+	sin(rot_speed) + vars->map->dirY * cos(rot_speed);
 	vars->map->planeX = vars->map->planeX * \
 	cos(rot_speed) - vars->map->planeY * sin(rot_speed);
-	vars->map->planeY = oldPlaneX * sin(rot_speed) + vars->map->planeY * cos(rot_speed);
+	vars->map->planeY = old_plane_x * \
+	sin(rot_speed) + vars->map->planeY * cos(rot_speed);
 }
 
-void move(t_vars *vars, double move_speed)
+void	move(t_vars *vars, double move_speed)
 {
-	if(vars->map->line[(int)(vars->map->posX + \
+	if (vars->map->line[(int)(vars->map->posX + \
 	vars->map->dirX * move_speed)][(int)vars->map->posY] == '0')
 		vars->map->posX += vars->map->dirX * move_speed;
-	if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + \
+	if (vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + \
 	vars->map->dirY * move_speed)] == '0')
 		vars->map->posY += vars->map->dirY * move_speed;
 }
@@ -60,49 +65,51 @@ int	key_handle(int keycode, t_vars *vars)
 	return (0);
 }
 
-void draw_ceil(t_vars *vars, int x)
+void	draw_ceil(t_vars *vars, int x)
 {
-	int ceil;
+	int	ceil;
 
 	ceil = 0;
 	while (ceil ++ < vars->drawStart)
 	{
 		mlx_pixel_put(vars->mlx, vars->win, x, ceil,
-		rgb_to_hex(vars->map->file_data->ceiling_rgb[0],
-		vars->map->file_data->ceiling_rgb[1],
-		vars->map->file_data->ceiling_rgb[2]));
+			rgb_to_hex(vars->map->file_data->ceiling_rgb[0],
+				vars->map->file_data->ceiling_rgb[1],
+				vars->map->file_data->ceiling_rgb[2]));
 	}
 }
 
-void draw_floor(t_vars *vars, int x)
+void	draw_floor(t_vars *vars, int x)
 {
 	while (vars->drawEnd < SCREEN_HEIGHT)
-    {
+	{
 		mlx_pixel_put(vars->mlx, vars->win, x, vars->drawEnd,
-		rgb_to_hex(vars->map->file_data->floor_rgb[0],
-		vars->map->file_data->floor_rgb[1],
-		vars->map->file_data->floor_rgb[2]));
+			rgb_to_hex(vars->map->file_data->floor_rgb[0],
+				vars->map->file_data->floor_rgb[1],
+				vars->map->file_data->floor_rgb[2]));
 		vars->drawEnd ++;
-    }
+	}
 }
 
-void draw(t_vars *vars, int x, int direction)
+void	draw(t_vars *vars, int x, int direction)
 {
 	draw_ceil(vars, x);
     while (vars->drawStart < vars->drawEnd)
-    {
+	{
 		vars->texY = (int)vars->texPos & (TEX_HEIGHT - 1);
 		vars->texPos += vars->step;
 		if (direction == NORTH)
-        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_north[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, \
+			vars->img_north[( TEX_HEIGHT * vars->texY + vars->texX ) / 32]\
+			 [(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		else if (direction == SOUTH)
-        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_south[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_south[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		else if (direction == EAST)
-        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_east[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_east[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		else if (direction == WEST)
-        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_west[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_west[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		vars->drawStart ++;
-    }
+	}
 	draw_floor(vars, x);
 }
 
