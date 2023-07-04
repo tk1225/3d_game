@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/04 19:42:10 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/04 20:40:19 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,10 @@ struct s_vars
 	double step;
 	double texPos;
 	int texNum;
+	double ray_dir_x;
+	double ray_dir_y;
+	int map_x;
+	int map_y;
 	uint32_t **img_north;
 	uint32_t **img_south;
 	uint32_t **img_east;
