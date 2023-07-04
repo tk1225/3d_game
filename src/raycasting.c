@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/04 19:36:12 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/04 20:04:38 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,80 +20,80 @@ int	rgb_to_hex(int red, int green, int blue)
 	return (hex_code);
 }
 
+void rotate(t_vars *vars, double rot_speed)
+{
+	double oldDirX = vars->map->dirX;
+	vars->map->dirX = vars->map->dirX * \
+	cos(rot_speed) - vars->map->dirY * sin(rot_speed);
+	vars->map->dirY = oldDirX * sin(rot_speed) + vars->map->dirY * cos(rot_speed);
+	double oldPlaneX = vars->map->planeX;
+	vars->map->planeX = vars->map->planeX * \
+	cos(rot_speed) - vars->map->planeY * sin(rot_speed);
+	vars->map->planeY = oldPlaneX * sin(rot_speed) + vars->map->planeY * cos(rot_speed);
+}
+
+void move(t_vars *vars, double move_speed)
+{
+	if(vars->map->line[(int)(vars->map->posX + \
+	vars->map->dirX * move_speed)][(int)vars->map->posY] == '0')
+		vars->map->posX += vars->map->dirX * move_speed;
+	if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + \
+	vars->map->dirY * move_speed)] == '0')
+		vars->map->posY += vars->map->dirY * move_speed;
+}
+
 int	key_handle(int keycode, t_vars *vars)
 {
 	if (keycode == LEFT_KEY || keycode == LEFT_KEY_M1)
-    {
-      double oldDirX = vars->map->dirX;
-      vars->map->dirX = vars->map->dirX * cos(ROT_SPEED) - vars->map->dirY * sin(ROT_SPEED);
-      vars->map->dirY = oldDirX * sin(ROT_SPEED) + vars->map->dirY * cos(ROT_SPEED);
-      double oldPlaneX = vars->map->planeX;
-      vars->map->planeX = vars->map->planeX * cos(ROT_SPEED) - vars->map->planeY * sin(ROT_SPEED);
-      vars->map->planeY = oldPlaneX * sin(ROT_SPEED) + vars->map->planeY * cos(ROT_SPEED);
-    }
+		rotate(vars, ROT_SPEED);
 	else if (keycode == RIGHT_KEY || keycode == RIGHT_KEY_M1)
-	{
-      double oldDirX = vars->map->dirX;
-      vars->map->dirX = vars->map->dirX * cos(-ROT_SPEED) - vars->map->dirY * sin(-ROT_SPEED);
-      vars->map->dirY = oldDirX * sin(-ROT_SPEED) + vars->map->dirY * cos(-ROT_SPEED);
-      double oldPlaneX = vars->map->planeX;
-      vars->map->planeX = vars->map->planeX * cos(-ROT_SPEED) - vars->map->planeY * sin(-ROT_SPEED);
-      vars->map->planeY = oldPlaneX * sin(-ROT_SPEED) + vars->map->planeY * cos(-ROT_SPEED);
-    }
+		rotate(vars, -ROT_SPEED);
 	else if (keycode == DOWN_KEY || keycode == DOWN_KEY_M1)
-	{
-    if(vars->map->line[(int)(vars->map->posX - vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
-      vars->map->posX -= vars->map->dirX * MOVE_SPEED;
-    if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY - vars->map->dirY * MOVE_SPEED)] == '0')
-      vars->map->posY -= vars->map->dirY * MOVE_SPEED;
-    }
+		move(vars, -MOVE_SPEED);
 	else if (keycode == UP_KEY || keycode == UP_KEY_M1)
-	{
-        if(vars->map->line[(int)(vars->map->posX + vars->map->dirX * MOVE_SPEED)][(int)vars->map->posY] == '0')
-            vars->map->posX += vars->map->dirX * MOVE_SPEED;
-        if(vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + vars->map->dirY * MOVE_SPEED)] == '0')
-            vars->map->posY += vars->map->dirY * MOVE_SPEED;
-  }
-  else if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
+		move(vars, MOVE_SPEED);
+	else if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-    	exit(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	}
 	return (0);
 }
 
 void draw(t_vars *vars, int x, int direction)
 {
-  int ceil = 0;
-    while (ceil < vars->drawStart)
-    {
-      mlx_pixel_put(vars->mlx, vars->win, x, ceil,
-      rgb_to_hex(vars->map->file_data->ceiling_rgb[0],
-      vars->map->file_data->ceiling_rgb[1],
-      vars->map->file_data->ceiling_rgb[2]));
-      ceil ++;
+	int ceil;
+
+	ceil = 0;
+	while (ceil < vars->drawStart)
+	{
+		mlx_pixel_put(vars->mlx, vars->win, x, ceil,
+		rgb_to_hex(vars->map->file_data->ceiling_rgb[0],
+		vars->map->file_data->ceiling_rgb[1],
+		vars->map->file_data->ceiling_rgb[2]));
+		ceil ++;
     }
     while (vars->drawStart < vars->drawEnd)
     {
-        vars->texY = (int)vars->texPos & (TEXHEIGHT - 1);
-        vars->texPos += vars->step;
-        if (direction == NORTH)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_north[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
-        else if (direction == SOUTH)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_south[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
-        else if (direction == EAST)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_east[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
-        else if (direction == WEST)
-          mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_west[(TEXHEIGHT * vars->texY + vars->texX) / 32][(TEXHEIGHT * vars->texY + vars->texX) % 32]);
-        vars->drawStart ++;
+		vars->texY = (int)vars->texPos & (TEX_HEIGHT - 1);
+		vars->texPos += vars->step;
+		if (direction == NORTH)
+        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_north[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+		else if (direction == SOUTH)
+        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_south[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+		else if (direction == EAST)
+        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_east[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+		else if (direction == WEST)
+        	mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_west[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+		vars->drawStart ++;
     }
     while (vars->drawEnd < SCREEN_HEIGHT)
     {
-      mlx_pixel_put(vars->mlx, vars->win, x, vars->drawEnd,
-      rgb_to_hex(vars->map->file_data->floor_rgb[0],
-      vars->map->file_data->floor_rgb[1],
-      vars->map->file_data->floor_rgb[2]));
-      vars->drawEnd ++;
+		mlx_pixel_put(vars->mlx, vars->win, x, vars->drawEnd,
+		rgb_to_hex(vars->map->file_data->floor_rgb[0],
+		vars->map->file_data->floor_rgb[1],
+		vars->map->file_data->floor_rgb[2]));
+		vars->drawEnd ++;
     }
 }
 
@@ -137,12 +137,12 @@ void raycasting(t_vars *vars)
       double sideDistX;
       double sideDistY;
       if(rayDirX < 0)
-      {
+	{
         stepX = -1;
         sideDistX = (vars->map->posX - mapX) * deltaDistX;
-      }
-      else
-      {
+	}
+	else
+	{
         stepX = 1;
         sideDistX = (mapX + 1.0 - vars->map->posX) * deltaDistX;
       }
@@ -212,13 +212,13 @@ void raycasting(t_vars *vars)
       wallX -= floor((wallX));
 
       //x coordinate on the texture
-      vars->texX = (int)(wallX * (double)(TEXWIDTH));
-      if(side == 0 && rayDirX > 0) vars->texX = TEXWIDTH - vars->texX - 1;
-      if(side == 1 && rayDirY < 0) vars->texX = TEXWIDTH - vars->texX - 1;
+      vars->texX = (int)(wallX * (double)(TEX_WIDTH));
+      if(side == 0 && rayDirX > 0) vars->texX = TEX_WIDTH - vars->texX - 1;
+      if(side == 1 && rayDirY < 0) vars->texX = TEX_WIDTH - vars->texX - 1;
 
       // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
       // How much to increase the texture coordinate per screen pixel
-      vars->step = 1.0 * TEXHEIGHT / lineHeight;
+      vars->step = 1.0 * TEX_HEIGHT / lineHeight;
       // Starting texture coordinate
       vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * vars->step;
       draw(vars, x, direction);
