@@ -1,13 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
+/*   Updated: 2023/07/04 19:36:12 by takumasaoka      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-int rgbToHex(int red, int green, int blue) {
-    int hexCode = (red << 16) | (green << 8) | blue;
-    return hexCode;
+int	rgb_to_hex(int red, int green, int blue)
+{
+	int	hex_code;
+
+	hex_code = (red << 16) | (green << 8) | blue;
+	return (hex_code);
 }
 
 int	key_handle(int keycode, t_vars *vars)
 {
-	printf("%d\n", keycode);
 	if (keycode == LEFT_KEY || keycode == LEFT_KEY_M1)
     {
       double oldDirX = vars->map->dirX;
@@ -43,7 +57,7 @@ int	key_handle(int keycode, t_vars *vars)
   else if (keycode == ESC_KEY || keycode == ESC_KEY_M1)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-    exit(EXIT_SUCCESS);
+    	exit(EXIT_SUCCESS);
 	}
 	return (0);
 }
@@ -54,7 +68,7 @@ void draw(t_vars *vars, int x, int direction)
     while (ceil < vars->drawStart)
     {
       mlx_pixel_put(vars->mlx, vars->win, x, ceil,
-      rgbToHex(vars->map->file_data->ceiling_rgb[0],
+      rgb_to_hex(vars->map->file_data->ceiling_rgb[0],
       vars->map->file_data->ceiling_rgb[1],
       vars->map->file_data->ceiling_rgb[2]));
       ceil ++;
@@ -76,7 +90,7 @@ void draw(t_vars *vars, int x, int direction)
     while (vars->drawEnd < SCREEN_HEIGHT)
     {
       mlx_pixel_put(vars->mlx, vars->win, x, vars->drawEnd,
-      rgbToHex(vars->map->file_data->floor_rgb[0],
+      rgb_to_hex(vars->map->file_data->floor_rgb[0],
       vars->map->file_data->floor_rgb[1],
       vars->map->file_data->floor_rgb[2]));
       vars->drawEnd ++;
