@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/05 01:20:16 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/05 09:36:54 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ struct s_vars
 	int direction;
 	double side_dist_x;
 	double side_dist_y;
+	int step_x;
+	int step_y;
 	uint32_t **img_north;
 	uint32_t **img_south;
 	uint32_t **img_east;

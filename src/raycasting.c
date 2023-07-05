@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/05 01:26:40 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/05 09:53:06 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,90 @@ void	draw(t_vars *vars, int x, int direction)
 	draw_floor(vars, x);
 }
 
+void calculate_vars(t_vars *vars, int x)
+{
+	//calculate ray position and direction
+    double cameraX = 2 * x / (double)SCREEN_WIDTH - 1; //x-coordinate in camera space
+    vars->ray_dir_x = vars->map->dirX + vars->map->planeX * cameraX;
+	vars->ray_dir_y = vars->map->dirY + vars->map->planeY * cameraX;
+    //which box of the map we're in
+    vars->map_x = vars->map->posX;
+    vars->map_y = vars->map->posY;
+	
+}
+
+void tmp(t_vars *vars, double deltaDistX, double deltaDistY)
+{
+	//what direction to step in x or y-direction (either +1 or -1)
+	//calculate step and initial sideDist
+	//length of ray from current position to next x or y-side
+	//double vars->side_dist_x;
+	//double vars->side_dist_y;
+	if(vars->ray_dir_x < 0)
+	{
+		vars->step_x= -1;
+		vars->side_dist_x = (vars->map->posX - vars->map_x) * deltaDistX;
+	}
+	else
+	{
+		vars->step_x = 1;
+		vars->side_dist_x = (vars->map_x + 1.0 - vars->map->posX) * deltaDistX;
+	}
+	if (vars->ray_dir_y < 0)
+	{
+		vars->step_y = -1;
+		vars->side_dist_y = (vars->map->posY - vars->map_y) * deltaDistY;
+	}
+	else
+	{
+		vars->step_y = 1;
+		vars->side_dist_y = (vars->map_y + 1.0 - vars->map->posY) * deltaDistY;
+	}
+}
+
+void tmp2(t_vars *vars, double deltaDistX, double deltaDistY)
+{
+	//Calculate distance projected on camera direction. This is the shortest distance from the point where the wall is
+	//hit to the camera plane. Euclidean to center camera point would give fisheye effect!
+	//This can be computed as (vars->map_x - posX + (1 - stepX) / 2) / vars->ray_dir_x for side == 0, or same formula with Y
+	//for size == 1, but can be simplified to the code below thanks to how sideDist and deltaDist are computed:
+	//because they were left scaled to |rayDir|. sideDist is the entire length of the ray above after the multiple
+	//steps, but we subtract deltaDist once because one step more into the wall was taken above.
+	double perpWallDist;
+		if(vars->direction == 0 || vars->direction == 1)
+			perpWallDist = (vars->side_dist_x - deltaDistX);
+		else
+			perpWallDist = (vars->side_dist_y - deltaDistY);
+		//Calculate height of line to draw on screen
+		int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+
+		//calculate lowest and highest pixel to fill in current stripe
+		vars->drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
+		if(vars->drawStart < 0)
+			vars->drawStart = 0;
+		vars->drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
+		if(vars->drawEnd >= SCREEN_HEIGHT)
+			vars->drawEnd = SCREEN_HEIGHT - 1;
+		//calculate value of wallX
+		double wallX; //where exactly the wall was hit
+		if(vars->direction == 0 || vars->direction == 1)
+			wallX = vars->map->posY + perpWallDist * vars->ray_dir_y;
+		else
+			wallX = vars->map->posX + perpWallDist * vars->ray_dir_x;
+		wallX -= floor((wallX));
+		//x coordinate on the texture
+		vars->texX = (int)(wallX * (double)(TEX_WIDTH));
+		if((vars->direction == 0 || vars->direction == 1) && vars->ray_dir_x > 0)
+			vars->texX = TEX_WIDTH - vars->texX - 1;
+		if((vars->direction == 2 || vars->direction == 3) && vars->ray_dir_y < 0)
+			vars->texX = TEX_WIDTH - vars->texX - 1;
+		// TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
+		// How much to increase the texture coordinate per screen pixel
+		vars->step = 1.0 * TEX_HEIGHT / lineHeight;
+		// Starting texture coordinate
+		vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * vars->step;
+}
+
 void dda(t_vars *vars, double deltaDistX, double deltaDistY,  int stepX, int stepY)
 {
 	while (1)
@@ -147,97 +231,24 @@ void raycasting(t_vars *vars)
 {
     for (int x = 0; x < SCREEN_WIDTH; x++)
     {
-      //calculate ray position and direction
-      double cameraX = 2 * x / (double)SCREEN_WIDTH - 1; //x-coordinate in camera space
-      vars->ray_dir_x = vars->map->dirX + vars->map->planeX * cameraX;
-      vars->ray_dir_y = vars->map->dirY + vars->map->planeY * cameraX;
-      //which box of the map we're in
-      vars->map_x = vars->map->posX;
-      vars->map_y = vars->map->posY;
-
-      //length of ray from one x or y-side to next x or y-side
-      //these are derived as:
-      //deltaDistX = sqrt(1 + (vars->ray_dir_y * rayDirY) / (vars->ray_dir_x * vars->ray_dir_x))
-      //deltaDistY = sqrt(1 + (vars->ray_dir_x * vars->ray_dir_x) / (vars->ray_dir_y * rayDirY))
-      //which can be simplified to abs(|rayDir| / vars->ray_dir_x) and abs(|rayDir| / rayDirY)
-      //where |rayDir| is the length of the vector (vars->ray_dir_x, rayDirY). Its length,
-      //unlike (dirX, dirY) is not 1, however this does not matter, only the
-      //ratio between deltaDistX and deltaDistY matters, due to the way the DDA
-      //stepping further below works. So the values can be computed as below.
-      //Division through zero is prevented, even though technically that's not
-      //needed in C++ with IEEE 754 floating point values.
-      double deltaDistX = (vars->ray_dir_x == 0) ? 1e30 : fabs(1 / vars->ray_dir_x);
-      double deltaDistY = (vars->ray_dir_y == 0) ? 1e30 : fabs(1 / vars->ray_dir_y);
-
-      double perpWallDist;
-
-      //what direction to step in x or y-direction (either +1 or -1)
-      int stepX;
-      int stepY;
-      //calculate step and initial sideDist
-      //length of ray from current position to next x or y-side
-	  //double vars->side_dist_x;
-	  //double vars->side_dist_y;
-      if(vars->ray_dir_x < 0)
-	{
-        stepX = -1;
-        vars->side_dist_x = (vars->map->posX - vars->map_x) * deltaDistX;
-	}
-	else
-	{
-        stepX = 1;
-        vars->side_dist_x = (vars->map_x + 1.0 - vars->map->posX) * deltaDistX;
-    }
-	if (vars->ray_dir_y < 0)
-	{
-		stepY = -1;
-		vars->side_dist_y = (vars->map->posY - vars->map_y) * deltaDistY;
-	}
-	else
-	{
-		stepY = 1;
-		vars->side_dist_y = (vars->map_y + 1.0 - vars->map->posY) * deltaDistY;
-	}
-	//perform DDA
-	dda(vars, deltaDistX, deltaDistY, stepX, stepY);
-
-      //Calculate distance projected on camera direction. This is the shortest distance from the point where the wall is
-      //hit to the camera plane. Euclidean to center camera point would give fisheye effect!
-      //This can be computed as (vars->map_x - posX + (1 - stepX) / 2) / vars->ray_dir_x for side == 0, or same formula with Y
-      //for size == 1, but can be simplified to the code below thanks to how sideDist and deltaDist are computed:
-      //because they were left scaled to |rayDir|. sideDist is the entire length of the ray above after the multiple
-      //steps, but we subtract deltaDist once because one step more into the wall was taken above.
-      if(vars->direction == 0 || vars->direction == 1) perpWallDist = (vars->side_dist_x - deltaDistX);
-      else          perpWallDist = (vars->side_dist_y - deltaDistY);
-
-      //Calculate height of line to draw on screen
-      int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
-
-      //calculate lowest and highest pixel to fill in current stripe
-      vars->drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
-      if(vars->drawStart < 0) vars->drawStart = 0;
-      vars->drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
-      if(vars->drawEnd >= SCREEN_HEIGHT) vars->drawEnd = SCREEN_HEIGHT - 1;
-      //choose wall color
-      // vars->texNum = vars->map->line[vars->map_x][vars->map_y] - 48 - 1;//1 subtracted from it so that texture 0 can be used!
-      //calculate value of wallX
-      double wallX; //where exactly the wall was hit
-      if(vars->direction == 0 || vars->direction == 1)
-	  	wallX = vars->map->posY + perpWallDist * vars->ray_dir_y;
-      else
-	  	wallX = vars->map->posX + perpWallDist * vars->ray_dir_x;
-      wallX -= floor((wallX));
-      //x coordinate on the texture
-      vars->texX = (int)(wallX * (double)(TEX_WIDTH));
-      if((vars->direction == 0 || vars->direction == 1) && vars->ray_dir_x > 0)
-	  	vars->texX = TEX_WIDTH - vars->texX - 1;
-      if((vars->direction == 2 || vars->direction == 3) && vars->ray_dir_y < 0)
-	  	vars->texX = TEX_WIDTH - vars->texX - 1;
-      // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
-      // How much to increase the texture coordinate per screen pixel
-      vars->step = 1.0 * TEX_HEIGHT / lineHeight;
-      // Starting texture coordinate
-      vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * vars->step;
-      draw(vars, x, vars->direction);
+		calculate_vars(vars, x);
+		//length of ray from one x or y-side to next x or y-side
+		//these are derived as:
+		//deltaDistX = sqrt(1 + (vars->ray_dir_y * rayDirY) / (vars->ray_dir_x * vars->ray_dir_x))
+		//deltaDistY = sqrt(1 + (vars->ray_dir_x * vars->ray_dir_x) / (vars->ray_dir_y * rayDirY))
+		//which can be simplified to abs(|rayDir| / vars->ray_dir_x) and abs(|rayDir| / rayDirY)
+		//where |rayDir| is the length of the vector (vars->ray_dir_x, rayDirY). Its length,
+		//unlike (dirX, dirY) is not 1, however this does not matter, only the
+		//ratio between deltaDistX and deltaDistY matters, due to the way the DDA
+		//stepping further below works. So the values can be computed as below.
+		//Division through zero is prevented, even though technically that's not
+		//needed in C++ with IEEE 754 floating point values.
+      	double deltaDistX = (vars->ray_dir_x == 0) ? 1e30 : fabs(1 / vars->ray_dir_x);
+      	double deltaDistY = (vars->ray_dir_y == 0) ? 1e30 : fabs(1 / vars->ray_dir_y);
+		tmp(vars, deltaDistX, deltaDistY);
+		//perform DDA
+		dda(vars, deltaDistX, deltaDistY, vars->step_x, vars->step_y);
+		tmp2(vars, deltaDistX, deltaDistY);
+		draw(vars, x, vars->direction);
     }
 }
