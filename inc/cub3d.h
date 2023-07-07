@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/03 11:51:06 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:36:54 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 #define MAP_HEIGHT 24
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-#define TEXWIDTH 32
-#define TEXHEIGHT 32
+#define TEX_WIDTH 32
+#define TEX_HEIGHT 32
 #define PITCH 100
 
 #define SUCCESS 1
@@ -94,6 +94,15 @@ struct s_vars
 	double step;
 	double texPos;
 	int texNum;
+	double ray_dir_x;
+	double ray_dir_y;
+	int map_x;
+	int map_y;
+	int direction;
+	double side_dist_x;
+	double side_dist_y;
+	int step_x;
+	int step_y;
 	uint32_t **img_north;
 	uint32_t **img_south;
 	uint32_t **img_east;
