@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/05 09:53:06 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/07 09:46:24 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,26 @@ void	draw_floor(t_vars *vars, int x)
 void	draw(t_vars *vars, int x, int direction)
 {
 	draw_ceil(vars, x);
-    while (vars->drawStart < vars->drawEnd)
+	while (vars->drawStart < vars->drawEnd)
 	{
 		vars->texY = (int)vars->texPos & (TEX_HEIGHT - 1);
 		vars->texPos += vars->step;
 		if (direction == NORTH)
 			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, \
-			vars->img_north[( TEX_HEIGHT * vars->texY + vars->texX ) / 32]\
-			 [(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			vars->img_north[(TEX_HEIGHT * vars->texY + vars->texX) / 32] \
+			[(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		else if (direction == SOUTH)
-			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_south[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, \
+			vars->img_south[(TEX_HEIGHT * vars->texY + vars->texX) / 32] \
+			[(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		else if (direction == EAST)
-			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_east[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, \
+			vars->img_east[(TEX_HEIGHT * vars->texY + vars->texX) / 32] \
+			[(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		else if (direction == WEST)
-			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, vars->img_west[(TEX_HEIGHT * vars->texY + vars->texX) / 32][(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
+			mlx_pixel_put(vars->mlx, vars->win, x, vars->drawStart, \
+			vars->img_west[(TEX_HEIGHT * vars->texY + vars->texX) / 32] \
+			[(TEX_HEIGHT * vars->texY + vars->texX) % 32]);
 		vars->drawStart ++;
 	}
 	draw_floor(vars, x);
@@ -115,14 +121,16 @@ void	draw(t_vars *vars, int x, int direction)
 
 void calculate_vars(t_vars *vars, int x)
 {
+	double	camera_x;
+
 	//calculate ray position and direction
-    double cameraX = 2 * x / (double)SCREEN_WIDTH - 1; //x-coordinate in camera space
-    vars->ray_dir_x = vars->map->dirX + vars->map->planeX * cameraX;
-	vars->ray_dir_y = vars->map->dirY + vars->map->planeY * cameraX;
-    //which box of the map we're in
-    vars->map_x = vars->map->posX;
-    vars->map_y = vars->map->posY;
-	
+	camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
+	//x-coordinate in camera space
+	vars->ray_dir_x = vars->map->dirX + vars->map->planeX * camera_x;
+	vars->ray_dir_y = vars->map->dirY + vars->map->planeY * camera_x;
+	//which box of the map we're in
+	vars->map_x = vars->map->posX;
+	vars->map_y = vars->map->posY;
 }
 
 void tmp(t_vars *vars, double deltaDistX, double deltaDistY)
@@ -132,9 +140,9 @@ void tmp(t_vars *vars, double deltaDistX, double deltaDistY)
 	//length of ray from current position to next x or y-side
 	//double vars->side_dist_x;
 	//double vars->side_dist_y;
-	if(vars->ray_dir_x < 0)
+	if (vars->ray_dir_x < 0)
 	{
-		vars->step_x= -1;
+		vars->step_x = -1;
 		vars->side_dist_x = (vars->map->posX - vars->map_x) * deltaDistX;
 	}
 	else
@@ -156,54 +164,55 @@ void tmp(t_vars *vars, double deltaDistX, double deltaDistY)
 
 void tmp2(t_vars *vars, double deltaDistX, double deltaDistY)
 {
+	double	perp_wall_dist;
+	int		line_height;
 	//Calculate distance projected on camera direction. This is the shortest distance from the point where the wall is
 	//hit to the camera plane. Euclidean to center camera point would give fisheye effect!
 	//This can be computed as (vars->map_x - posX + (1 - stepX) / 2) / vars->ray_dir_x for side == 0, or same formula with Y
 	//for size == 1, but can be simplified to the code below thanks to how sideDist and deltaDist are computed:
 	//because they were left scaled to |rayDir|. sideDist is the entire length of the ray above after the multiple
 	//steps, but we subtract deltaDist once because one step more into the wall was taken above.
-	double perpWallDist;
-		if(vars->direction == 0 || vars->direction == 1)
-			perpWallDist = (vars->side_dist_x - deltaDistX);
-		else
-			perpWallDist = (vars->side_dist_y - deltaDistY);
-		//Calculate height of line to draw on screen
-		int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
-
-		//calculate lowest and highest pixel to fill in current stripe
-		vars->drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
-		if(vars->drawStart < 0)
-			vars->drawStart = 0;
-		vars->drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + PITCH;
-		if(vars->drawEnd >= SCREEN_HEIGHT)
-			vars->drawEnd = SCREEN_HEIGHT - 1;
-		//calculate value of wallX
-		double wallX; //where exactly the wall was hit
-		if(vars->direction == 0 || vars->direction == 1)
-			wallX = vars->map->posY + perpWallDist * vars->ray_dir_y;
-		else
-			wallX = vars->map->posX + perpWallDist * vars->ray_dir_x;
-		wallX -= floor((wallX));
-		//x coordinate on the texture
+	if (vars->direction == 0 || vars->direction == 1)
+		perp_wall_dist = (vars->side_dist_x - deltaDistX);
+	else
+		perp_wall_dist = (vars->side_dist_y - deltaDistY);
+	//Calculate height of line to draw on screen	
+	line_height = (int)(SCREEN_HEIGHT / perp_wall_dist);
+	//calculate lowest and highest pixel to fill in current stripe
+	vars->drawStart = -line_height / 2 + SCREEN_HEIGHT / 2 + PITCH;
+	if (vars->drawStart < 0)
+		vars->drawStart = 0;
+	vars->drawEnd = line_height / 2 + SCREEN_HEIGHT / 2 + PITCH;
+	if (vars->drawEnd >= SCREEN_HEIGHT)
+		vars->drawEnd = SCREEN_HEIGHT - 1;
+	//calculate value of wallX
+	double wallX; //where exactly the wall was hit
+	if (vars->direction == 0 || vars->direction == 1)
+		wallX = vars->map->posY + perp_wall_dist * vars->ray_dir_y;
+	else
+		wallX = vars->map->posX + perp_wall_dist * vars->ray_dir_x;
+	wallX -= floor((wallX));
+	//x coordinate on the texture
 		vars->texX = (int)(wallX * (double)(TEX_WIDTH));
-		if((vars->direction == 0 || vars->direction == 1) && vars->ray_dir_x > 0)
-			vars->texX = TEX_WIDTH - vars->texX - 1;
-		if((vars->direction == 2 || vars->direction == 3) && vars->ray_dir_y < 0)
-			vars->texX = TEX_WIDTH - vars->texX - 1;
-		// TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
-		// How much to increase the texture coordinate per screen pixel
-		vars->step = 1.0 * TEX_HEIGHT / lineHeight;
-		// Starting texture coordinate
-		vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 + lineHeight / 2) * vars->step;
+	if ((vars->direction == 0 || vars->direction == 1) && vars->ray_dir_x > 0)
+		vars->texX = TEX_WIDTH - vars->texX - 1;
+	if ((vars->direction == 2 || vars->direction == 3) && vars->ray_dir_y < 0)
+		vars->texX = TEX_WIDTH - vars->texX - 1;
+	// TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
+	// How much to increase the texture coordinate per screen pixel
+	vars->step = 1.0 * TEX_HEIGHT / line_height;
+	// Starting texture coordinate
+	vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 \
+	+ line_height / 2) * vars->step;
 }
 
 void dda(t_vars *vars, double deltaDistX, double deltaDistY,  int stepX, int stepY)
 {
 	while (1)
-    {
-    //jump to next map square, either in x-direction, or in y-direction
-    	if (vars->side_dist_x < vars->side_dist_y)
-    	{
+	{
+	//jump to next map square, either in x-direction, or in y-direction
+		if (vars->side_dist_x < vars->side_dist_y)
+		{
 			vars->side_dist_x += deltaDistX;
 			vars->map_x += stepX;
 			if (stepX > 0)
@@ -219,18 +228,23 @@ void dda(t_vars *vars, double deltaDistX, double deltaDistY,  int stepX, int ste
 				vars->direction = EAST;
 			else
 				vars->direction = WEST;
-			}
-        //Check if ray has hit a wall
+		}
+		//Check if ray has hit a wall
 		if (vars->map->line[vars->map_x][vars->map_y] > '0' \
 		|| vars->map->line[vars->map_x][vars->map_y] == ' ')
-			break;
-      }
+			break ;
+	}
 }
 
 void raycasting(t_vars *vars)
 {
-    for (int x = 0; x < SCREEN_WIDTH; x++)
-    {
+	int		x;
+	double	delta_dist_x;
+	double	delta_dist_y;
+
+	x = 0;
+	while (x++ < SCREEN_WIDTH)
+	{
 		calculate_vars(vars, x);
 		//length of ray from one x or y-side to next x or y-side
 		//these are derived as:
@@ -243,12 +257,18 @@ void raycasting(t_vars *vars)
 		//stepping further below works. So the values can be computed as below.
 		//Division through zero is prevented, even though technically that's not
 		//needed in C++ with IEEE 754 floating point values.
-      	double deltaDistX = (vars->ray_dir_x == 0) ? 1e30 : fabs(1 / vars->ray_dir_x);
-      	double deltaDistY = (vars->ray_dir_y == 0) ? 1e30 : fabs(1 / vars->ray_dir_y);
-		tmp(vars, deltaDistX, deltaDistY);
+		if (vars->ray_dir_x == 0)
+			delta_dist_x = 1e30;
+		else
+			delta_dist_x = fabs(1 / vars->ray_dir_x);
+		if (vars->ray_dir_y == 0)
+			delta_dist_y = 1e30;
+		else
+			delta_dist_y = fabs(1 / vars->ray_dir_y);
+		tmp(vars, delta_dist_x, delta_dist_y);
 		//perform DDA
-		dda(vars, deltaDistX, deltaDistY, vars->step_x, vars->step_y);
-		tmp2(vars, deltaDistX, deltaDistY);
+		dda(vars, delta_dist_x, delta_dist_y, vars->step_x, vars->step_y);
+		tmp2(vars, delta_dist_x, delta_dist_y);
 		draw(vars, x, vars->direction);
-    }
+	}
 }
