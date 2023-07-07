@@ -6,7 +6,7 @@
 /*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/07 09:46:24 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/07 09:49:00 by takumasaoka      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,11 @@ void calculate_vars(t_vars *vars, int x)
 	vars->map_y = vars->map->posY;
 }
 
-void tmp(t_vars *vars, double deltaDistX, double deltaDistY)
+void calculate_side_dist(t_vars *vars, double deltaDistX, double deltaDistY)
 {
 	//what direction to step in x or y-direction (either +1 or -1)
 	//calculate step and initial sideDist
 	//length of ray from current position to next x or y-side
-	//double vars->side_dist_x;
-	//double vars->side_dist_y;
 	if (vars->ray_dir_x < 0)
 	{
 		vars->step_x = -1;
@@ -162,7 +160,7 @@ void tmp(t_vars *vars, double deltaDistX, double deltaDistY)
 	}
 }
 
-void tmp2(t_vars *vars, double deltaDistX, double deltaDistY)
+void calculate_wall_dist(t_vars *vars, double deltaDistX, double deltaDistY)
 {
 	double	perp_wall_dist;
 	int		line_height;
@@ -265,10 +263,10 @@ void raycasting(t_vars *vars)
 			delta_dist_y = 1e30;
 		else
 			delta_dist_y = fabs(1 / vars->ray_dir_y);
-		tmp(vars, delta_dist_x, delta_dist_y);
+		calculate_side_dist(vars, delta_dist_x, delta_dist_y);
 		//perform DDA
 		dda(vars, delta_dist_x, delta_dist_y, vars->step_x, vars->step_y);
-		tmp2(vars, delta_dist_x, delta_dist_y);
+		calculate_wall_dist(vars, delta_dist_x, delta_dist_y);
 		draw(vars, x, vars->direction);
 	}
 }
