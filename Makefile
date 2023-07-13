@@ -6,7 +6,7 @@
 #    By: terabu <terabu@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/31 18:31:13 by takuokam          #+#    #+#              #
-#    Updated: 2023/07/03 11:43:10 by terabu           ###   ########.fr        #
+#    Updated: 2023/07/13 10:48:38 by terabu           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ OBJ_DIR	:=	objs/
 
 SRCS_NAME	:= main.c \
 			   raycasting.c \
+			   raycasting_draw.c \
+			   raycasting_calculate.c \
+			   key_handle.c \
 			   input_data.c \
 			   set_map.c \
 			   error_handle.c \

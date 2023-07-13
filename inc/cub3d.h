@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takumasaokamoto <takumasaokamoto@studen    +#+  +:+       +#+        */
+/*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/05 09:36:54 by takumasaoka      ###   ########.fr       */
+/*   Updated: 2023/07/13 10:48:25 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,12 @@ void		check_pre(int argc, char **argv);
 void		check_map(t_map *map);
 void 		check_wall(t_map *map);
 bool		check_start_point(char p);
+void		draw(t_vars *vars, int x, int direction);
+int			key_handle(int keycode, t_vars *vars);
+void calculate_vars(t_vars *vars, int x);
+void calculate_side_dist(t_vars *vars, double deltaDistX, double deltaDistY);
+void calculate_wall_dist(t_vars *vars, double deltaDistX, double deltaDistY);
+
 
 void 		free_array(char **array);
 void		free_line(char **line, int row);
