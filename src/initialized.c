@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 11:37:45 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/03 11:52:04 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 14:08:47 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ t_map	*map_init(void)
 	t_map	*map;
 
 	map = (t_map *)malloc(sizeof(t_map));
-	map->posX = 22;
-	map->posY = 12;
-	map->dirX = -1;
-	map->dirY = 0;
-	map->planeX = 0;
-	map->planeY = 0.66;
+	map->pos_x = 22;
+	map->pos_y = 12;
+	map->dir_x = -1;
+	map->dir_y = 0;
+	map->plane_x = 0;
+	map->plane_y = 0.66;
 	return (map);
 }
 
