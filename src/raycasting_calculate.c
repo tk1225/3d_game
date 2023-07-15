@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:47:29 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/15 14:10:24 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 15:31:00 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	calculate_wall_dist(t_vars *vars, double deltaDistX, double deltaDistY)
 	if (vars->draw_start < 0)
 		vars->draw_start = 0;
 	vars->draw_end = line_height / 2 + SCREEN_HEIGHT / 2 + PITCH;
-	if (vars->draw_end >= SCREEN_HEIGHT)
+	if (vars->draw_end >= SCREEN_HEIGHT || vars->draw_end < 0)
 		vars->draw_end = SCREEN_HEIGHT - 1;
 	calculate_texture_dist(vars, perp_wall_dist, line_height);
 }
