@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:38:08 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/13 10:38:09 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 11:44:58 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ void	draw_floor(t_vars *vars, int x)
 		vars->drawEnd ++;
 	}
 }
+
+/*
+
+< calculate_wall_dist関数 >
+
+描画開始位置から描画終了位置(drawEnd)に達するまで、壁のテクスチャを描画する。
+テクスチャのピクセル色は、指定された方向(NORTH、SOUTH、EAST、WEST)に応じて、
+北向き、南向き、東向き、西向きの画像から取得される。
+
+< 各種変数について >
+texX, texY	:テクスチャの座標
+			 ステップサイズ(step)とテクスチャの開始位置(texPos)に基づいて計算されている
+
+*/
 
 void	draw(t_vars *vars, int x, int direction)
 {
