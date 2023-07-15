@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/15 13:42:20 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 15:53:54 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	dda(t_vars *vars, int stepX, int step_y)
 			vars->side_dist_y += vars->delta_y;
 			vars->map_y += step_y;
 			if (step_y > 0)
-				vars->direction = EAST;
-			else
 				vars->direction = WEST;
+			else
+				vars->direction = EAST;
 		}
 		if (vars->map->line[vars->map_x][vars->map_y] > '0' \
 		|| vars->map->line[vars->map_x][vars->map_y] == ' ')
