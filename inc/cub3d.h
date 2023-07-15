@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/13 10:48:25 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 12:48:50 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,23 @@
 
 #define SUCCESS 1
 #define ERROR 0
+
 #define ESC_KEY 53
 #define LEFT_KEY 123
 #define RIGHT_KEY 124
 #define DOWN_KEY 125
 #define UP_KEY 126
+#define W_KEY 13
+#define A_KEY 0
+#define S_KEY 1
+#define D_KEY 2
 #define SPACE_KEY 49
 #define ESC_KEY_M1 65307
 #define LEFT_KEY_M1 65361
 #define RIGHT_KEY_M1 65363
 #define DOWN_KEY_M1 65364
 #define UP_KEY_M1 65362
+
 #define MAX_MAP_COL	50
 #define MAX_MAP_ROW	50
 
