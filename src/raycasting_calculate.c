@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:47:29 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/14 11:25:00 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 14:10:24 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 
 < 各種変数について >
 camera_x				:カメラの位置（範囲：-1 〜 1）
-dirx, diry				:カメラの方向
-planeX, planeY			:カメラの平面ベクトル(視野を確定させる)
+dir_x, dir_y				:カメラの方向
+plane_x, plane_y			:カメラの平面ベクトル(視野を確定させる)
 ray_dir_x, rai_dir_y	:レイの方向
 map_x, map_y			:プレイヤーの座標位置
 
 < ray_dir_x, rai_dir_yについて補足 >
-カメラの方向ベクトル（dirXとdirY）とカメラの平面ベクトル（planeXとplaneY）に
+カメラの方向ベクトル（dir_xとdir_y）とカメラの平面ベクトル（plane_xとplane_y）に
 対するcamera_xの線形結合により取得する。
 
 */
@@ -35,10 +35,10 @@ void	calculate_vars(t_vars *vars, int x)
 	double	camera_x;
 
 	camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
-	vars->ray_dir_x = vars->map->dirX + vars->map->planeX * camera_x;
-	vars->ray_dir_y = vars->map->dirY + vars->map->planeY * camera_x;
-	vars->map_x = vars->map->posX;
-	vars->map_y = vars->map->posY;
+	vars->ray_dir_x = vars->map->dir_x + vars->map->plane_x * camera_x;
+	vars->ray_dir_y = vars->map->dir_y + vars->map->plane_y * camera_x;
+	vars->map_x = vars->map->pos_x;
+	vars->map_y = vars->map->pos_y;
 }
 
 /*
@@ -50,12 +50,12 @@ x方向とy方向について「サイド距離」（side_dist）を計算する
 
 ray_dir_x < 0の場合、
 レイは負のX方向に向かっているので、X方向のステップは-1になる。
-この場合、サイド距離は現在の位置（posX）からマップのX位置（map_x）までの差を
+この場合、サイド距離は現在の位置（pos_x）からマップのX位置（map_x）までの差を
 deltaDistXで掛けることにより計算される。
 
 同様に、ray_dir_x >= 0の場合、レイは正のX方向に向かっているので、X方向のステップは1となる。
 サイド距離は、マップのX位置から現在の位置までの距離
-（map_x + 1.0 - posX）をdeltaDistXで掛けることにより計算される。
+（map_x + 1.0 - pos_x）をdeltaDistXで掛けることにより計算される。
 
 < 各種変数について >
 deltaDistX, deltaDistY	:それぞれレイが次にx軸またはy軸に沿った格子線と交わるまでの距離
@@ -70,22 +70,22 @@ void	calculate_side_dist(t_vars *vars, double deltaDistX, double deltaDistY)
 	if (vars->ray_dir_x < 0)
 	{
 		vars->step_x = -1;
-		vars->side_dist_x = (vars->map->posX - vars->map_x) * deltaDistX;
+		vars->side_dist_x = (vars->map->pos_x - vars->map_x) * deltaDistX;
 	}
 	else
 	{
 		vars->step_x = 1;
-		vars->side_dist_x = (vars->map_x + 1.0 - vars->map->posX) * deltaDistX;
+		vars->side_dist_x = (vars->map_x + 1.0 - vars->map->pos_x) * deltaDistX;
 	}
 	if (vars->ray_dir_y < 0)
 	{
 		vars->step_y = -1;
-		vars->side_dist_y = (vars->map->posY - vars->map_y) * deltaDistY;
+		vars->side_dist_y = (vars->map->pos_y - vars->map_y) * deltaDistY;
 	}
 	else
 	{
 		vars->step_y = 1;
-		vars->side_dist_y = (vars->map_y + 1.0 - vars->map->posY) * deltaDistY;
+		vars->side_dist_y = (vars->map_y + 1.0 - vars->map->pos_y) * deltaDistY;
 	}
 }
 
@@ -114,17 +114,17 @@ void	calculate_texture_dist(t_vars *vars, double wall_dist, int line_height)
 	double	wall_x;
 
 	if (vars->direction == 0 || vars->direction == 1)
-		wall_x = vars->map->posY + wall_dist * vars->ray_dir_y;
+		wall_x = vars->map->pos_y + wall_dist * vars->ray_dir_y;
 	else
-		wall_x = vars->map->posX + wall_dist * vars->ray_dir_x;
+		wall_x = vars->map->pos_x + wall_dist * vars->ray_dir_x;
 	wall_x -= floor((wall_x));
-		vars->texX = (int)(wall_x * (double)(TEX_WIDTH));
+		vars->tex_x = (int)(wall_x * (double)(TEX_WIDTH));
 	if ((vars->direction == 0 || vars->direction == 1) && vars->ray_dir_x > 0)
-		vars->texX = TEX_WIDTH - vars->texX - 1;
+		vars->tex_x = TEX_WIDTH - vars->tex_x - 1;
 	if ((vars->direction == 2 || vars->direction == 3) && vars->ray_dir_y < 0)
-		vars->texX = TEX_WIDTH - vars->texX - 1;
+		vars->tex_x = TEX_WIDTH - vars->tex_x - 1;
 	vars->step = 1.0 * TEX_HEIGHT / line_height;
-	vars->texPos = (vars->drawStart - PITCH - SCREEN_HEIGHT / 2 \
+	vars->tex_pos = (vars->draw_start - PITCH - SCREEN_HEIGHT / 2 \
 	+ line_height / 2) * vars->step;
 }
 
@@ -151,8 +151,8 @@ line_height			:壁の高さ
 					 スクリーンの高さを壁までの直行距離で割ることで求められる
 					 (投影面の大きさと視点から壁までの距離に基づいた視角の計算)
 					 壁が近いほど線の高さは大きく、遠いほど小さくなる
-drawStart			:描画開始位置(画面の中心から壁の上端までの距離)
-drawEnd				:描画終了位置(画面の中心から壁の下端までの距離)
+draw_start			:描画開始位置(画面の中心から壁の上端までの距離)
+draw_end				:描画終了位置(画面の中心から壁の下端までの距離)
 */
 
 void	calculate_wall_dist(t_vars *vars, double deltaDistX, double deltaDistY)
@@ -165,11 +165,11 @@ void	calculate_wall_dist(t_vars *vars, double deltaDistX, double deltaDistY)
 	else
 		perp_wall_dist = (vars->side_dist_y - deltaDistY);
 	line_height = (int)(SCREEN_HEIGHT / perp_wall_dist);
-	vars->drawStart = -line_height / 2 + SCREEN_HEIGHT / 2 + PITCH;
-	if (vars->drawStart < 0)
-		vars->drawStart = 0;
-	vars->drawEnd = line_height / 2 + SCREEN_HEIGHT / 2 + PITCH;
-	if (vars->drawEnd >= SCREEN_HEIGHT)
-		vars->drawEnd = SCREEN_HEIGHT - 1;
+	vars->draw_start = -line_height / 2 + SCREEN_HEIGHT / 2 + PITCH;
+	if (vars->draw_start < 0)
+		vars->draw_start = 0;
+	vars->draw_end = line_height / 2 + SCREEN_HEIGHT / 2 + PITCH;
+	if (vars->draw_end >= SCREEN_HEIGHT)
+		vars->draw_end = SCREEN_HEIGHT - 1;
 	calculate_texture_dist(vars, perp_wall_dist, line_height);
 }

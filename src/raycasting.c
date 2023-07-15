@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:31:26 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/15 11:55:33 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:42:20 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ direction	:どの壁(texture)の方向(東西南北)にレイが当たったか�
 
 */
 
-void	dda(t_vars *vars, double delta_x, double delta_y, int stepX, int step_y)
+void	dda(t_vars *vars, int stepX, int step_y)
 {
 	while (1)
 	{
 		if (vars->side_dist_x < vars->side_dist_y)
 		{
-			vars->side_dist_x += delta_x;
+			vars->side_dist_x += vars->delta_x;
 			vars->map_x += stepX;
 			if (stepX > 0)
 				vars->direction = NORTH;
@@ -41,7 +41,7 @@ void	dda(t_vars *vars, double delta_x, double delta_y, int stepX, int step_y)
 		}
 		else
 		{
-			vars->side_dist_y += delta_y;
+			vars->side_dist_y += vars->delta_y;
 			vars->map_y += step_y;
 			if (step_y > 0)
 				vars->direction = EAST;
@@ -76,24 +76,22 @@ void	dda(t_vars *vars, double delta_x, double delta_y, int stepX, int step_y)
 void	raycasting(t_vars *vars)
 {
 	int		x;
-	double	delta_dist_x;
-	double	delta_dist_y;
 
 	x = 0;
 	while (x++ < SCREEN_WIDTH)
 	{
 		calculate_vars(vars, x);
 		if (vars->ray_dir_x == 0)
-			delta_dist_x = 1e30;
+			vars->delta_x = 1e30;
 		else
-			delta_dist_x = fabs(1 / vars->ray_dir_x);
+			vars->delta_x = fabs(1 / vars->ray_dir_x);
 		if (vars->ray_dir_y == 0)
-			delta_dist_y = 1e30;
+			vars->delta_y = 1e30;
 		else
-			delta_dist_y = fabs(1 / vars->ray_dir_y);
-		calculate_side_dist(vars, delta_dist_x, delta_dist_y);
-		dda(vars, delta_dist_x, delta_dist_y, vars->step_x, vars->step_y);
-		calculate_wall_dist(vars, delta_dist_x, delta_dist_y);
+			vars->delta_y = fabs(1 / vars->ray_dir_y);
+		calculate_side_dist(vars, vars->delta_x, vars->delta_y);
+		dda(vars, vars->step_x, vars->step_y);
+		calculate_wall_dist(vars, vars->delta_x, vars->delta_y);
 		draw(vars, x, vars->direction);
 	}
 }

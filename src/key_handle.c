@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:42:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/15 13:14:54 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 14:08:47 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,36 @@ void	rotate(t_vars *vars, double rot_speed)
 	double	old_dir_x;
 	double	old_plane_x;
 
-	old_dir_x = vars->map->dirX;
-	old_plane_x = vars->map->planeX;
-	vars->map->dirX = vars->map->dirX * \
-	cos(rot_speed) - vars->map->dirY * sin(rot_speed);
-	vars->map->dirY = old_dir_x * \
-	sin(rot_speed) + vars->map->dirY * cos(rot_speed);
-	vars->map->planeX = vars->map->planeX * \
-	cos(rot_speed) - vars->map->planeY * sin(rot_speed);
-	vars->map->planeY = old_plane_x * \
-	sin(rot_speed) + vars->map->planeY * cos(rot_speed);
+	old_dir_x = vars->map->dir_x;
+	old_plane_x = vars->map->plane_x;
+	vars->map->dir_x = vars->map->dir_x * \
+	cos(rot_speed) - vars->map->dir_y * sin(rot_speed);
+	vars->map->dir_y = old_dir_x * \
+	sin(rot_speed) + vars->map->dir_y * cos(rot_speed);
+	vars->map->plane_x = vars->map->plane_x * \
+	cos(rot_speed) - vars->map->plane_y * sin(rot_speed);
+	vars->map->plane_y = old_plane_x * \
+	sin(rot_speed) + vars->map->plane_y * cos(rot_speed);
 }
 
 void	move_up_down(t_vars *vars, double move_speed)
 {
-	if (vars->map->line[(int)(vars->map->posX + \
-	vars->map->dirX * move_speed)][(int)vars->map->posY] == '0')
-		vars->map->posX += vars->map->dirX * move_speed;
-	if (vars->map->line[(int)vars->map->posX][(int)(vars->map->posY + \
-	vars->map->dirY * move_speed)] == '0')
-		vars->map->posY += vars->map->dirY * move_speed;
+	if (vars->map->line[(int)(vars->map->pos_x + \
+	vars->map->dir_x * move_speed)][(int)vars->map->pos_y] == '0')
+		vars->map->pos_x += vars->map->dir_x * move_speed;
+	if (vars->map->line[(int)vars->map->pos_x][(int)(vars->map->pos_y + \
+	vars->map->dir_y * move_speed)] == '0')
+		vars->map->pos_y += vars->map->dir_y * move_speed;
 }
 
 void	move_left_right(t_vars *vars, double move_speed)
 {
-	if (vars->map->line[(int)(vars->map->posX - \
-	vars->map->planeX * move_speed)][(int)vars->map->posY] == '0')
-		vars->map->posX -= vars->map->planeX * move_speed;
-	if (vars->map->line[(int)vars->map->posX][(int)(vars->map->posY - \
-	vars->map->planeY * move_speed)] == '0')
-		vars->map->posY -= vars->map->planeY * move_speed;
+	if (vars->map->line[(int)(vars->map->pos_x - \
+	vars->map->plane_x * move_speed)][(int)vars->map->pos_y] == '0')
+		vars->map->pos_x -= vars->map->plane_x * move_speed;
+	if (vars->map->line[(int)vars->map->pos_x][(int)(vars->map->pos_y - \
+	vars->map->plane_y * move_speed)] == '0')
+		vars->map->pos_y -= vars->map->plane_y * move_speed;
 }
 
 int	key_handle(int keycode, t_vars *vars)
@@ -59,7 +59,7 @@ int	key_handle(int keycode, t_vars *vars)
 		|| keycode == S_KEY)
 		move_up_down(vars, -MOVE_SPEED);
 	else if (keycode == UP_KEY || keycode == UP_KEY_M1
-		 || keycode == W_KEY)
+		|| keycode == W_KEY)
 		move_up_down(vars, MOVE_SPEED);
 	else if (keycode == A_KEY)
 		move_left_right(vars, MOVE_SPEED);

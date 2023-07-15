@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:04:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/02 13:13:32 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 14:13:09 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 void	do_right_direction(t_map *map, int r_time)
 {
-	double	old_dirx;
-	double	old_planex;
+	double	old_dir_x;
+	double	old_plane_x;
 
 	while (r_time)
 	{
-		old_dirx = map->dirX;
-		map->dirX = map->dirX * cos(-ROT_SPEED) - map->dirY * sin(-ROT_SPEED);
-		map->dirY = old_dirx * sin(-ROT_SPEED) + map->dirY * cos(-ROT_SPEED);
-		old_planex = map->planeX;
-		map->planeX = map->planeX * cos(-ROT_SPEED)
-			- map->planeY * sin(-ROT_SPEED);
-		map->planeY = old_planex * sin(-ROT_SPEED)
-			+ map->planeY * cos(-ROT_SPEED);
+		old_dir_x = map->dir_x;
+		map->dir_x = map->dir_x * cos(-ROT_SPEED) - \
+			map->dir_y * sin(-ROT_SPEED);
+		map->dir_y = old_dir_x * sin(-ROT_SPEED) + \
+			map->dir_y * cos(-ROT_SPEED);
+		old_plane_x = map->plane_x;
+		map->plane_x = map->plane_x * cos(-ROT_SPEED)
+			- map->plane_y * sin(-ROT_SPEED);
+		map->plane_y = old_plane_x * sin(-ROT_SPEED)
+			+ map->plane_y * cos(-ROT_SPEED);
 		r_time--;
 	}
 }
@@ -59,10 +61,9 @@ void	init_position(t_map *map)
 			if (check_start_point(map->line[y][x]))
 			{
 				init_direction(map, map->line[y][x]);
-				map->posX = y;
-				map->posY = x;
+				map->pos_x = y;
+				map->pos_y = x;
 				map->line[y][x] = '0';
-				printf("x:%d y:%d\n", x, y);
 				return ;
 			}
 			x++;
