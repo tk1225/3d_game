@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:56:05 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/02 13:05:09 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:26:06 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ void	free_line(char **line, int row)
 		i++;
 	}
 	free(line);
+}
+
+int	end_cub3d(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(EXIT_SUCCESS);
 }

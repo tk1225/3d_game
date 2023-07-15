@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:32:12 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/03 11:52:10 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:29:14 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	main(int argc, char **argv)
 	initialized(vars, argv[1]);
 	raycasting(vars);
 	mlx_loop_hook(vars->mlx, render_next_frame, vars);
-	mlx_hook(vars->win, 2, 1L << 0, key_handle, vars);
+	mlx_hook(vars->win, X_EVENT_KEY_PRESS, 1L << 0, key_handle, vars);
+	mlx_hook(vars->win, X_EVENT_KEY_EXIT, 1L << 0, &end_cub3d, vars);
 	mlx_loop(vars->mlx);
 }
 

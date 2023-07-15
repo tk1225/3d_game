@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:49:39 by takumasaoka       #+#    #+#             */
-/*   Updated: 2023/07/15 12:48:50 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:29:31 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 #define RIGHT_KEY_M1 65363
 #define DOWN_KEY_M1 65364
 #define UP_KEY_M1 65362
+#define X_EVENT_KEY_PRESS 2
+#define X_EVENT_KEY_EXIT 17
 
 #define MAX_MAP_COL	50
 #define MAX_MAP_ROW	50
@@ -173,6 +175,9 @@ void calculate_wall_dist(t_vars *vars, double deltaDistX, double deltaDistY);
 
 void 		free_array(char **array);
 void		free_line(char **line, int row);
+int			end_cub3d(t_vars *vars);
+
+
 
 uint32_t	get_color(t_data *img, int x, int y);
 t_data		*img_init(t_vars *vars, char *relative_path);

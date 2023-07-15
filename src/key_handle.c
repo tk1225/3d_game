@@ -6,7 +6,7 @@
 /*   By: terabu <terabu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:42:47 by terabu            #+#    #+#             */
-/*   Updated: 2023/07/15 12:54:41 by terabu           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:14:54 by terabu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ int	key_handle(int keycode, t_vars *vars)
 	else if (keycode == D_KEY)
 		move_left_right(vars, -MOVE_SPEED);
 	else if (keycode == ESC_KEY || keycode == ESC_KEY_M1 || keycode == 17)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(EXIT_SUCCESS);
-	}
+		end_cub3d(vars);
 	return (0);
 }
